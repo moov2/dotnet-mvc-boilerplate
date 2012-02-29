@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="commit" default="default" basedir="../">
+
+	<property name="base.dir" value="${project::get-base-directory()}" />
+  	<property name="deploy.dir" value="${base.dir}/deploy" />
+
+  	<!-- build tools. -->
+  	<property name="tools.dir" value="${base.dir}/build/tools" />
+  	<property name="nantcontrib.dll" value="${tools.dir}/nantcontrib-0.91-rc1/libs/NAnt.Contrib.Tasks.dll" />
+
+  	<!-- helpful features to enhance NAnt. -->
+	<loadtasks>
+		<fileset>
+	  		<include name="${nantcontrib.dll}" />
+		</fileset>
+	</loadtasks>
+
+  	<!-- does the whole shibang to create the website ready to be released. -->
+	<target name="default" depends="clean, prepare" />
+
+	<!-- deletes any of the artifacts from any previous builds. -->
+	<target name="clean">
+		<delete dir="${deploy.dir}" failonerror="false" /> 
+	</target>
+
+	<!-- creates the directories that are required for the build process. -->
+	<target name="prepare">
+		<mkdir dir="${deploy.dir}" />
+	</target>
+</project>
