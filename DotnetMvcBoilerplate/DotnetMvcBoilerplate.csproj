@@ -68,8 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\js\lib\jquery-1.7.1.js" />
-    <Content Include="Content\js\lib\modernizr-2.5.3.min.js" />
+    <Content Include="Content\css\normalize.css" />
+    <Content Include="Content\js\libs\jquery-1.7.1.js" />
+    <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -82,7 +83,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\css\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
