@@ -15,6 +15,10 @@
   	<property name="js.src.dir" value="${content.dir}\js" />
   	<property name="js.libs.dir" value="${js.src.dir}\libs" />
 
+  	<!-- less settings -->
+  	<property name="lessc.cmd" value="${tools.dir}\lessc\lessc.cmd" />
+  	<property name="less.src.dir" value="${content.dir}\less" />
+
   	<!-- css settings -->
   	<property name="css.dir" value="${project.dir}\css" />
   	<property name="css.src.dir" value="${project.dir}\Content\css" />
@@ -27,7 +31,7 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="clean, prepare, js, css" />
+	<target name="default" depends="clean, prepare, js, less, css" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
 	<target name="clean">
@@ -74,14 +78,28 @@
 	</target>
 
 	<!-- 
+		compiles the less files into css files.
+	-->
+	<target name="less">
+		<exec workingdir='.' 
+	          program="${lessc.cmd}" 
+	          commandline='"${less.src.dir}\master.less" "${css.dir}\master-less.css"' 
+	          failonerror='true' />
+	</target>
+
+	<!-- 
 		gathers all the css files into a single file (style.css) that
 		can reduce page load speed.
 	-->
 	<target name="css">
 		<concat destfile="${css.dir}/style.css">
 	      <fileset>
-	        <include asis="true" name="${css.src.dir}/normalize.css" />
+	        <include asis="true" name="${css.src.dir}\normalize.css" />
+	        <include asis="true" name="${css.dir}\master-less.css" />
 	      </fileset>
 	    </concat>
+
+	    <!-- deletes the master less generated css file from the css folder. -->
+    	<delete file="${css.dir}\master-less.css" />
 	</target>
 </project>
