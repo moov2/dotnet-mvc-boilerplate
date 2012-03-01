@@ -6,6 +6,10 @@
   	<property name="deploy.dir" value="${base.dir}\deploy" />
   	<property name="content.dir" value="${project.dir}\Content" />
 
+  	<!-- .net project settings -->
+  	<property name="solution.file" value="DotnetMvcBoilerplate.sln" />
+  	<property name="framework.version" value="net-4.0" />
+  	
   	<!-- build tools. -->
   	<property name="tools.dir" value="${base.dir}\build\tools" />
   	<property name="nantcontrib.dll" value="${tools.dir}\nantcontrib-0.91-rc1\libs\NAnt.Contrib.Tasks.dll" />
@@ -31,7 +35,7 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="clean, prepare, js, less, css" />
+	<target name="default" depends="clean, prepare, compile, js, less, css" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
 	<target name="clean">
@@ -45,6 +49,16 @@
 		<mkdir dir="${deploy.dir}" />
 		<mkdir dir="${js.dir}" />
 		<mkdir dir="${css.dir}" />
+	</target>
+
+	<!-- 
+		compiles the solution to ensure there are no compile errors. 
+	-->
+	<target name="compile">
+		<exec program="${framework::get-framework-directory(framework.version)}\MSBuild.exe"
+          	  commandline="${solution.file} /t:Clean,Build /p:PreBuildEvent= /p:PostBuildEvent="
+          	  workingdir="."
+          	  failonerror="true"/>
 	</target>
 
 	<!-- 
