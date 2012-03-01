@@ -1,4 +1,8 @@
 bin/
 obj/
+deploy/
+
+DotnetMvcBoilerplate/js/
+DotnetMvcBoilerplate/css/
 
 *.suo
