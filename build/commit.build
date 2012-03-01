@@ -5,6 +5,7 @@
 	<property name="project.dir" value="${base.dir}\DotnetMvcBoilerplate" />
   	<property name="deploy.dir" value="${base.dir}\deploy" />
   	<property name="content.dir" value="${project.dir}\Content" />
+
   	<!-- build tools. -->
   	<property name="tools.dir" value="${base.dir}\build\tools" />
   	<property name="nantcontrib.dll" value="${tools.dir}\nantcontrib-0.91-rc1\libs\NAnt.Contrib.Tasks.dll" />
@@ -14,6 +15,10 @@
   	<property name="js.src.dir" value="${content.dir}\js" />
   	<property name="js.libs.dir" value="${js.src.dir}\libs" />
 
+  	<!-- css settings -->
+  	<property name="css.dir" value="${project.dir}\css" />
+  	<property name="css.src.dir" value="${project.dir}\Content\css" />
+
   	<!-- helpful features to enhance NAnt. -->
 	<loadtasks>
 		<fileset>
@@ -22,16 +27,20 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="clean, prepare, js" />
+	<target name="default" depends="clean, prepare, js, css" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
 	<target name="clean">
 		<delete dir="${deploy.dir}" failonerror="false" /> 
+		<delete dir="${js.dir}" failonerror="false" />
+		<delete dir="${css.dir}" failonerror="false" />
 	</target>
 
 	<!-- creates the directories that are required for the build process. -->
 	<target name="prepare">
 		<mkdir dir="${deploy.dir}" />
+		<mkdir dir="${js.dir}" />
+		<mkdir dir="${css.dir}" />
 	</target>
 
 	<!-- 
@@ -60,6 +69,18 @@
 	    <concat destfile="${js.dir}\scripts.js">
 	      <fileset>
 	        <include asis="true" name="${js.src.dir}\boilerplate.js" />
+	      </fileset>
+	    </concat>
+	</target>
+
+	<!-- 
+		gathers all the css files into a single file (style.css) that
+		can reduce page load speed.
+	-->
+	<target name="css">
+		<concat destfile="${css.dir}/style.css">
+	      <fileset>
+	        <include asis="true" name="${css.src.dir}/normalize.css" />
 	      </fileset>
 	    </concat>
 	</target>
