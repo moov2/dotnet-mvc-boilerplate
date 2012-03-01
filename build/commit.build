@@ -2,17 +2,18 @@
 <project name="commit" default="default" basedir="..\">
 
 	<property name="base.dir" value="${project::get-base-directory()}" />
-	<property name="project.dir" value="${base.dir}\DotnetMvcBoilerplate" />
-  	<property name="deploy.dir" value="${base.dir}\deploy" />
+	<property name="project.dir" value="${base.dir}DotnetMvcBoilerplate" />
+  	<property name="deploy.dir" value="${base.dir}deploy" />
   	<property name="content.dir" value="${project.dir}\Content" />
 
   	<!-- .net project settings -->
   	<property name="solution.file" value="DotnetMvcBoilerplate.sln" />
   	<property name="framework.version" value="net-4.0" />
-  	
+
   	<!-- build tools. -->
-  	<property name="tools.dir" value="${base.dir}\build\tools" />
+  	<property name="tools.dir" value="${base.dir}build\tools" />
   	<property name="nantcontrib.dll" value="${tools.dir}\nantcontrib-0.91-rc1\libs\NAnt.Contrib.Tasks.dll" />
+	<property name="nunit.exe" value="${tools.dir}\nunit\nunit-console.exe" />
 
   	<!-- js settings -->
   	<property name="js.dir" value="${project.dir}\js" />
@@ -27,6 +28,10 @@
   	<property name="css.dir" value="${project.dir}\css" />
   	<property name="css.src.dir" value="${project.dir}\Content\css" />
 
+  	<!-- unit test settings -->
+  	<property name="test.reports.dir" value="${deploy.dir}\test-reports" />
+  	<property name="unit.tests.dll" value="${base.dir}DotnetMvcBoilerplate.Tests.Unit\bin\Debug\DotnetMvcBoilerplate.Tests.Unit.dll" />
+
   	<!-- helpful features to enhance NAnt. -->
 	<loadtasks>
 		<fileset>
@@ -35,7 +40,7 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="clean, prepare, compile, js, less, css" />
+	<target name="default" depends="clean, prepare, compile, js, less, css, unit-test" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
 	<target name="clean">
@@ -47,6 +52,7 @@
 	<!-- creates the directories that are required for the build process. -->
 	<target name="prepare">
 		<mkdir dir="${deploy.dir}" />
+		<mkdir dir="${test.reports.dir}" />
 		<mkdir dir="${js.dir}" />
 		<mkdir dir="${css.dir}" />
 	</target>
@@ -116,4 +122,17 @@
 	    <!-- deletes the master less generated css file from the css folder. -->
     	<delete file="${css.dir}\master-less.css" />
 	</target>
+
+	<!--
+		Runs the unit tests.
+	-->
+	<target name="unit-test">
+		<echo>${unit.tests.dll}</echo>
+
+	    <exec workingdir='.'
+	    	  program="${nunit.exe}"
+	          commandline='"${unit.tests.dll}" /xml:"${test.reports.dir}\unit-tests.xml"'
+	          failonerror="true"  />
+	</target>
+
 </project>
