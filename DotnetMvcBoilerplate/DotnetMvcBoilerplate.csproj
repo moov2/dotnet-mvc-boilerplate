@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\normalize.css" />
+    <Content Include="Content\js\boilerplate.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
     <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Global.asax" />

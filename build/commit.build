@@ -1,12 +1,18 @@
 <?xml version="1.0"?>
-<project name="commit" default="default" basedir="../">
+<project name="commit" default="default" basedir="..\">
 
 	<property name="base.dir" value="${project::get-base-directory()}" />
-  	<property name="deploy.dir" value="${base.dir}/deploy" />
-
+	<property name="project.dir" value="${base.dir}\DotnetMvcBoilerplate" />
+  	<property name="deploy.dir" value="${base.dir}\deploy" />
+  	<property name="content.dir" value="${project.dir}\Content" />
   	<!-- build tools. -->
-  	<property name="tools.dir" value="${base.dir}/build/tools" />
-  	<property name="nantcontrib.dll" value="${tools.dir}/nantcontrib-0.91-rc1/libs/NAnt.Contrib.Tasks.dll" />
+  	<property name="tools.dir" value="${base.dir}\build\tools" />
+  	<property name="nantcontrib.dll" value="${tools.dir}\nantcontrib-0.91-rc1\libs\NAnt.Contrib.Tasks.dll" />
+
+  	<!-- js settings -->
+  	<property name="js.dir" value="${project.dir}\js" />
+  	<property name="js.src.dir" value="${content.dir}\js" />
+  	<property name="js.libs.dir" value="${js.src.dir}\libs" />
 
   	<!-- helpful features to enhance NAnt. -->
 	<loadtasks>
@@ -16,7 +22,7 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="clean, prepare" />
+	<target name="default" depends="clean, prepare, js" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
 	<target name="clean">
@@ -26,5 +32,35 @@
 	<!-- creates the directories that are required for the build process. -->
 	<target name="prepare">
 		<mkdir dir="${deploy.dir}" />
+	</target>
+
+	<!-- 
+		compiles the custom js & third party libraries into seperate 
+		files (script.js & plugins.js) that are placed into a js folder
+		in the root of the website.
+	-->
+	<target name="js">
+		<!-- 
+		copy modenizr on its own because it is loaded on its own in the
+		head of the document.
+		-->
+		<copy todir="${js.dir}" file="${js.libs.dir}\modernizr-2.5.3.min.js" /> 
+
+		<!-- 
+		joins all the third party js libs into a single file for reduced 
+		page load.
+		-->
+		<concat destfile="${js.dir}\plugins.js">
+	      <fileset>
+	        <include asis="true" name="${js.libs.dir}\jquery-1.7.1.js" />
+	      </fileset>
+	    </concat>
+
+		<!-- copies all custom written js into a single file. -->
+	    <concat destfile="${js.dir}\scripts.js">
+	      <fileset>
+	        <include asis="true" name="${js.src.dir}\boilerplate.js" />
+	      </fileset>
+	    </concat>
 	</target>
 </project>
