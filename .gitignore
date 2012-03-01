@@ -6,3 +6,4 @@ DotnetMvcBoilerplate/js/
 DotnetMvcBoilerplate/css/
 
 *.suo
+*.user
