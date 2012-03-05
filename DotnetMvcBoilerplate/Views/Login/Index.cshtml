@@ -1,0 +1,33 @@
+﻿@model DotnetMvcBoilerplate.ViewModels.Login.LoginViewModel
+           
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+
+<div id="login-page">
+
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "clearfix" }))
+    {
+        if (TempData["LogoutFeedback"] != null)
+        {
+            <div class="logout-feedback">
+                @TempData["LogoutFeedback"]
+            </div>
+        }
+        
+        @Html.LabelFor(model => model.Username, "Username")
+        @Html.TextBoxFor(model => model.Username)
+    
+        @Html.LabelFor(model => model.Password, "Password")
+        @Html.PasswordFor(model => model.Password)
+        
+        <div class="checkbox clearfix">
+            @Html.CheckBoxFor(model => model.RememberMe)
+            @Html.LabelFor(model => model.RememberMe, "Remember Me")
+        </div>
+        
+        <input type="submit" value="Login" />
+    }
+
+</div>
