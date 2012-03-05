@@ -87,8 +87,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Infrastructure\DefaultRegistration.cs" />
     <Compile Include="Infrastructure\DefaultRouting.cs" />
+    <Compile Include="ViewModels\Install\InstallViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
     <None Include="Content\less\master.less" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Views\Shared\_Page.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Install\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\normalize.css" />
