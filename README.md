@@ -16,4 +16,5 @@ Below are a list of all the third party frameworks & tools used in the boilerpla
 * MVCTurbine with Unity - 3.4
 * Simple.Data.Core - 1.0.0-beta3
 * Mongo C# Driver - 1.3.1.4349
-* Simple.Data.MongoDB -  0.12.0.1
+* Simple.Data.MongoDB - 0.12.0.1
+* DataAnnotations.MVC3 - 1.0.1.0
