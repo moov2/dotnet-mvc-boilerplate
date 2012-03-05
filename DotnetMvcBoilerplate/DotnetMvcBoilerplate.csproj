@@ -68,6 +68,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Views\Shared\_Page.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\normalize.css" />
