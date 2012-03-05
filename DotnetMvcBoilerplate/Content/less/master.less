@@ -1,3 +1,56 @@
-﻿body {
+﻿@import "elements.less";
+
+@dark: #373737;
+
+body {
+	background: #f2f2f2;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 100%;
 	width: 100%;
+}
+
+header {
+	background: @dark;
+	height: 75px;
+	padding-left: 30px;
+
+	h1 {
+		color: #fff;
+		font-size: 1.6em;
+		font-weight: 550;
+		line-height: 75px;
+		margin: 0;
+	}
+}
+
+#main {
+	padding-left: 30px;
+
+	h2 {
+		color: #424344;
+		font-size: 2.5em;
+		margin-top: 10px;
+	}
+}
+
+nav {
+	background: #c4c7c9;
+	border-bottom: 1px solid #b1b1b1;
+	font-size: 0.85em;
+	height: 35px;
+	line-height: 35px;
+	padding-left: 30px;
+
+	a {
+		color: #fff;
+		margin-right: 10px;
+
+		&:visited, &:link, &:hover {
+			color: #fff;
+		}
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
 }
