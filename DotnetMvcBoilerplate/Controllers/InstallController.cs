@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using DotnetMvcBoilerplate.ViewModels.Install;
 
 namespace DotnetMvcBoilerplate.Controllers
 {
@@ -14,6 +15,12 @@ namespace DotnetMvcBoilerplate.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(InstallViewModel model)
+        {
+            throw (new NotImplementedException());
         }
     }
 }

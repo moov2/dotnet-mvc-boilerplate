@@ -89,6 +89,9 @@
 		<concat destfile="${js.dir}\plugins.js">
 	      <fileset>
 	        <include asis="true" name="${js.libs.dir}\jquery-1.7.1.js" />
+	        <include asis="true" name="${js.libs.dir}\jquery.form.js" />
+	        <include asis="true" name="${js.libs.dir}\jquery.validate.js" />
+	        <include asis="true" name="${js.libs.dir}\jquery.validate.unobtrusive.js" />
 	      </fileset>
 	    </concat>
 

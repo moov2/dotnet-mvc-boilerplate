@@ -75,7 +75,7 @@
       <HintPath>..\packages\MVCTurbine.3.4\lib\MvcTurbine.Web.dll</HintPath>
     </Reference>
     <Reference Include="Simple.Data">
-      <HintPath>..\packages\Simple.Data.Core.1.0.0-beta3\lib\net40\Simple.Data.dll</HintPath>
+      <HintPath>..\packages\Simple.Data.Core.0.14.0.3\lib\net40\Simple.Data.dll</HintPath>
     </Reference>
     <Reference Include="Simple.Data.MongoDB">
       <HintPath>..\packages\Simple.Data.MongoDB.0.12.0.1\lib\net40\Simple.Data.MongoDB.dll</HintPath>

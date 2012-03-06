@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Page.cshtml";
 }
 
+@{ Html.EnableClientValidation(); }
+
 <div id="install-page">
     @using (Html.BeginForm("Index", "Install", FormMethod.Post, new { @class = "clearfix" }))
     {
@@ -14,13 +16,16 @@
         
         @Html.LabelFor(model => model.Username, "Username")
         @Html.TextBoxFor(model => model.Username)
-    
+        @Html.ValidationMessageFor(model => model.Username)
+
         @Html.LabelFor(model => model.Password, "Password")
         @Html.PasswordFor(model => model.Password)
+        @Html.ValidationMessageFor(model => model.Password)
 
-        @Html.LabelFor(model => model.Password, "Confirm Password")
+        @Html.LabelFor(model => model.ConfirmPassword, "Confirm Password")
         @Html.PasswordFor(model => model.ConfirmPassword)
-   
+        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                   
         <input type="submit" value="Create Account" />
     }
 </div>
