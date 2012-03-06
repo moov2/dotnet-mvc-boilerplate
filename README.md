@@ -18,3 +18,5 @@ Below are a list of all the third party frameworks & tools used in the boilerpla
 * Mongo C# Driver - 1.3.1.4349
 * Simple.Data.MongoDB - 0.12.0.1
 * DataAnnotationsExtensions.MVC3 - 1.0.1.0
+* AutoMoq - 1.6.1
+* Moq - 4.0.20926
