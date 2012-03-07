@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Web.Mvc;
 using DotnetMvcBoilerplate.ViewModels.Install;
+using DotnetMvcBoilerplate.Core.Service;
 
 namespace DotnetMvcBoilerplate.Controllers
 {
     public class InstallController : Controller
     {
+        private IUserService _userService;
+
+        public InstallController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         /// <summary>
         /// Displays the Install form that allows the
         /// user to create the initial admin account.
@@ -33,6 +41,8 @@ namespace DotnetMvcBoilerplate.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
+
+            _userService.Create(model.ToUser());
 
             return Redirect("/");
         }

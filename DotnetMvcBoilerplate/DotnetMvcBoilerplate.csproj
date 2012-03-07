@@ -110,8 +110,14 @@
   <ItemGroup>
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Core\Provider\IDatabaseProvider.cs" />
+    <Compile Include="Core\Provider\MongoDatabaseProvider.cs" />
+    <Compile Include="Core\Security\Encryption.cs" />
+    <Compile Include="Core\Security\Password.cs" />
+    <Compile Include="Core\Service\UserService.cs" />
     <Compile Include="Infrastructure\DefaultRegistration.cs" />
     <Compile Include="Infrastructure\DefaultRouting.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\Install\InstallViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
     <None Include="Content\less\master.less" />
@@ -141,9 +147,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
