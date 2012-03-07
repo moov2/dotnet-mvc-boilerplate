@@ -26,6 +26,17 @@ namespace DotnetMvcBoilerplate.Core.Service
         {
             _db.Users.Insert(user);
         }
+
+        /// <summary>
+        /// Returns flag indicating whether there is
+        /// at least one user in the database.
+        /// </summary>
+        /// <returns>True if there is at least one user,
+        /// otherwise false is returned.</returns>
+        public bool AtLeastOneExists()
+        {
+            return _db.Users.All().Count() > 0;
+        }
     }
 
     public interface IUserService

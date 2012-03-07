@@ -28,6 +28,31 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Service
         }
 
         /// <summary>
+        /// Tests that AtLeastOneExists returns false when there
+        /// are no users in the database.
+        /// </summary>
+        [Test]
+        public void AtLeastOneExists_NoUsersInDatabase_ReturnsFalse()
+        {
+            Assert.That(_autoMoqer.Resolve<UserService>().AtLeastOneExists(), Is.False);
+        }
+
+        /// <summary>
+        /// Tests that AtLeastOneExists returns true when there
+        /// are users in the database.
+        /// </summary>
+        [Test]
+        public void AtLeastOneExists_UsersInDatabase_ReturnsTrue()
+        {
+            var db = _memoryDatabaseProvider.GetDb();
+            
+            foreach (var user in Fakes.Users())
+                db.Users.Insert(user);
+
+            Assert.That(_autoMoqer.Resolve<UserService>().AtLeastOneExists(), Is.True);
+        }
+
+        /// <summary>
         /// Tests that Create inserts the user provided into
         /// the database.
         /// </summary>
