@@ -22,6 +22,9 @@ namespace DotnetMvcBoilerplate.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (_userService.AtLeastOneExists())
+                return Redirect("/");
+
             return View();
         }
 

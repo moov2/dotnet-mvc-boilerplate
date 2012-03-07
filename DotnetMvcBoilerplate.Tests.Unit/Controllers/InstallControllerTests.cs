@@ -25,9 +25,21 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         /// Tests that a GET request to Index will return the install form.
         /// </summary>
         [Test]
-        public void Index_HttpGet_ReturnsView()
+        public void Index_HttpGetWhereInstallHasntHappened_ReturnsView()
         {
+            _autoMoqer.GetMock<IUserService>().Setup(x => x.AtLeastOneExists()).Returns(false);
             Assert.That(_autoMoqer.Resolve<InstallController>().Index(), Is.InstanceOf<ViewResult>());
+        }
+
+        /// <summary>
+        /// Tests that a GET request to Index when the install has already happened redirects
+        /// the client to the root page of the website.
+        /// </summary>
+        [Test]
+        public void Index_HttpGetWhereInstallHasAlreadyHappened_RedirectsToRoot()
+        {
+            _autoMoqer.GetMock<IUserService>().Setup(x => x.AtLeastOneExists()).Returns(true);
+            Assert.That((_autoMoqer.Resolve<InstallController>().Index() as RedirectResult).Url, Is.EqualTo("/"));
         }
 
         /// <summary>
