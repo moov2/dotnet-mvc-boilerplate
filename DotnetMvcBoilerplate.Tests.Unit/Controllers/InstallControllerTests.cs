@@ -8,6 +8,7 @@ using DotnetMvcBoilerplate.Tests.Unit.Utils;
 using DotnetMvcBoilerplate.Models;
 using DotnetMvcBoilerplate.Core.Service;
 using Moq;
+using DotnetMvcBoilerplate.Core.Security;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
 {
@@ -75,7 +76,7 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         {
             var expectedUser = new User();
             var mockInstallViewModel = _autoMoqer.GetMock<InstallViewModel>();
-            mockInstallViewModel.Setup(x => x.ToUser()).Returns(expectedUser);
+            mockInstallViewModel.Setup(x => x.ToUser(_autoMoqer.GetMock<IEncryption>().Object)).Returns(expectedUser);
 
             _autoMoqer.Resolve<InstallController>().Index(mockInstallViewModel.Object);
 

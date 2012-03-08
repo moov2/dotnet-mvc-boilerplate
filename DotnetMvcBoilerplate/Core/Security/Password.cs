@@ -4,13 +4,18 @@ namespace DotnetMvcBoilerplate.Core.Security
 {
     public class Password
     {
+        public Password()
+        {
+
+        }
+
         public Password(byte[] key, byte[] salt)
         {
             Key = key;
             Salt = salt;
         }
 
-        public byte[] Key { get; private set; }
-        public byte[] Salt { get; private set; }
+        public virtual byte[] Key { get; private set; }
+        public virtual byte[] Salt { get; private set; }
     }
 }

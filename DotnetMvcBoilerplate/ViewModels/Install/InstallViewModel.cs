@@ -20,13 +20,15 @@ namespace DotnetMvcBoilerplate.ViewModels.Install
         /// <summary>
         /// Converts the user entered data into a User object.
         /// </summary>
+        /// <param name="encryption">Business class used to encrypt
+        /// the password entered by the user.</param>
         /// <returns>User object made up of this data.</returns>
-        public virtual User ToUser()
+        public virtual User ToUser(IEncryption encryption)
         {
             var user = new User();
             user.Username = Username;
             user.MakeAdmin();
-            user.Password = Encryption.Encrypt(Password);
+            user.Password = encryption.Encrypt(Password);
             return user;
         }
     }

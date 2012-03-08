@@ -5,11 +5,21 @@ using DotnetMvcBoilerplate.ViewModels.Install;
 using DataAnnotationsExtensions;
 using System.ComponentModel.DataAnnotations;
 using DotnetMvcBoilerplate.Core.Security;
+using DotnetMvcBoilerplate.Models;
+using AutoMoq;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
 {
     public class InstallViewModelTests
     {
+        private AutoMoqer _autoMoqer;
+
+        [SetUp]
+        public void Setup()
+        {
+            _autoMoqer = new AutoMoqer();
+        }
+
         /// <summary>
         /// Tests that the Username is set on the User returned from ToUser.
         /// </summary>
@@ -17,7 +27,7 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
         public void ToUser_ReturnsUserWithUsername()
         {
             const string expectedUsername = "My Username";
-            Assert.That(new InstallViewModel { Username = expectedUsername, Password = "Password" }.ToUser().Username, Is.EqualTo(expectedUsername));
+            Assert.That(ToUserWithUsernameAndPassword(expectedUsername, "Password").Username, Is.EqualTo(expectedUsername));
         }
 
         /// <summary>
@@ -26,7 +36,7 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
         [Test]
         public void ToUser_ReturnsUserAsAnAdmin()
         {
-            Assert.That(new InstallViewModel { Password = "Password" }.ToUser().IsAdmin, Is.True);
+            Assert.That(ToUserWithUsernameAndPassword("Username", "Password").IsAdmin, Is.True);
         }
 
         /// <summary>
@@ -36,10 +46,11 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
         [Test]
         public void ToUser_ReturnsUserWithEncryptedPassword()
         {
-            const string usersPassword = "password";
-            var actualPassword = new InstallViewModel { Password = usersPassword }.ToUser().Password;
+            var expectedPassword = _autoMoqer.GetMock<Password>().Object;
+            var userEnteredPassword = "Password";
 
-            Assert.That(new InstallViewModel { Password = usersPassword }.ToUser().Password, !Is.Null);
+            _autoMoqer.GetMock<IEncryption>().Setup(x => x.Encrypt(userEnteredPassword)).Returns(expectedPassword);
+            Assert.That(ToUserWithUsernameAndPassword("Username", userEnteredPassword).Password, Is.EqualTo(expectedPassword));
         }
 
         /// <summary>
@@ -88,6 +99,18 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
                                           .FirstOrDefault();
 
             Assert.That(attribute, !Is.Null);
+        }
+
+        /// <summary>
+        /// Creates an instance of InstallViewModel with the username and password provide,
+        /// then returns the value returned from ToUser.
+        /// </summary>
+        /// <param name="username">Value of the Username property on InstallViewModel.</param>
+        /// <param name="password">Value of the password property on InstallViewModel.</param>
+        /// <returns>Value returned from ToUser.</returns>
+        private User ToUserWithUsernameAndPassword(string username, string password)
+        {
+            return new InstallViewModel { Username = username, Password = password }.ToUser(_autoMoqer.GetMock<IEncryption>().Object);
         }
     }
 }

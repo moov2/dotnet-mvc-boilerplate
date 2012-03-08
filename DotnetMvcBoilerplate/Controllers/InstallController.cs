@@ -2,15 +2,18 @@
 using System.Web.Mvc;
 using DotnetMvcBoilerplate.ViewModels.Install;
 using DotnetMvcBoilerplate.Core.Service;
+using DotnetMvcBoilerplate.Core.Security;
 
 namespace DotnetMvcBoilerplate.Controllers
 {
     public class InstallController : Controller
     {
+        private IEncryption _encryption;
         private IUserService _userService;
 
-        public InstallController(IUserService userService)
+        public InstallController(IEncryption encryption, IUserService userService)
         {
+            _encryption = encryption;
             _userService = userService;
         }
 
@@ -45,7 +48,7 @@ namespace DotnetMvcBoilerplate.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            _userService.Create(model.ToUser());
+            _userService.Create(model.ToUser(_encryption));
 
             return Redirect("/");
         }
