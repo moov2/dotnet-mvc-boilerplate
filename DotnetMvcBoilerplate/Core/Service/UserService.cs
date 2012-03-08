@@ -1,6 +1,7 @@
 ﻿using System;
 using DotnetMvcBoilerplate.Models;
 using DotnetMvcBoilerplate.Core.Provider;
+using DotnetMvcBoilerplate.Core.Security;
 
 namespace DotnetMvcBoilerplate.Core.Service
 {
@@ -11,9 +12,12 @@ namespace DotnetMvcBoilerplate.Core.Service
         /// </summary>
         private dynamic _db;
 
-        public UserService(IDatabaseProvider databaseProvider)
+        private IEncryption _encryption;
+
+        public UserService(IDatabaseProvider databaseProvider, IEncryption encryption)
         {
             _db = databaseProvider.GetDb();
+            _encryption = encryption;
         }
 
         /// <summary>
@@ -37,7 +41,12 @@ namespace DotnetMvcBoilerplate.Core.Service
         /// <returns>User that matches the credentials, otherwise null.</returns>
         public User ByUsernameAndPassword(string username, string password)
         {
-            throw (new NotImplementedException());
+            var user = (User)_db.Users.FindByUsername(username);
+
+            if (user == null || !_encryption.DecryptCompare(password, user.Password))
+                return null;
+
+            return user;
         }
 
         /// <summary>
