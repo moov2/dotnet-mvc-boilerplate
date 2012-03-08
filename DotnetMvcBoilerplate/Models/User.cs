@@ -9,7 +9,7 @@ namespace DotnetMvcBoilerplate.Models
     {
         public ObjectId Id { get; set; }
         public Password Password { get; set; }
-        public string Username { get; set; }
+        public virtual string Username { get; set; }
         public IList<string> Roles { get; set; }
 
         /// <summary>

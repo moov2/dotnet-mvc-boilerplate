@@ -15,6 +15,13 @@
                 @TempData["LogoutFeedback"]
             </div>
         }
+
+        if (ViewData["Feedback"] != null)
+        {
+            <div class="failed-feedback">
+                @ViewData["Feedback"]
+            </div>
+        }
         
         @Html.LabelFor(model => model.Username, "Username")
         @Html.TextBoxFor(model => model.Username)

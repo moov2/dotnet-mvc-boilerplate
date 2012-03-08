@@ -1,11 +1,32 @@
 ﻿using System;
 using System.Web.Mvc;
 using DotnetMvcBoilerplate.ViewModels.Login;
+using DotnetMvcBoilerplate.Core.Service;
 
 namespace DotnetMvcBoilerplate.Controllers
 {
     public class LoginController : Controller
     {
+        private const string LoginFailedFeedback = "Unable to login.";
+
+        private IUserService _userService;
+
+        public LoginController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        /// <summary>
+        /// Gets the view & its data organised for a failed
+        /// login, giving feedback to the user.
+        /// </summary>
+        /// <returns>The login form.</returns>
+        private ViewResult FailedLogin(LoginViewModel model)
+        {
+            ViewData["Feedback"] = LoginFailedFeedback;
+            return View(model);
+        }
+
         /// <summary>
         /// Presents the login for to the user.
         /// </summary>
@@ -26,7 +47,12 @@ namespace DotnetMvcBoilerplate.Controllers
         [HttpPost]
         public ActionResult Index(LoginViewModel model)
         {
-            throw (new NotImplementedException());
+            var user = _userService.ByUsernameAndPassword(model.Username, model.Password);
+
+            if (user == null)
+                return FailedLogin(model);
+             
+            return Redirect("/");
         }
     }
 }

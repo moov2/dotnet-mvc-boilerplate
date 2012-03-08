@@ -28,6 +28,19 @@ namespace DotnetMvcBoilerplate.Core.Service
         }
 
         /// <summary>
+        /// Retrieves a user by their username and then compares the password
+        /// to the encrypted password, if successful then the user is returned,
+        /// otherwise null.
+        /// </summary>
+        /// <param name="username">Username credential.</param>
+        /// <param name="password">Password credential.</param>
+        /// <returns>User that matches the credentials, otherwise null.</returns>
+        public User ByUsernameAndPassword(string username, string password)
+        {
+            throw (new NotImplementedException());
+        }
+
+        /// <summary>
         /// Inserts the user into the database, thus
         /// creating a new user in the system.
         /// </summary>
@@ -42,6 +55,7 @@ namespace DotnetMvcBoilerplate.Core.Service
     public interface IUserService
     {
         bool AtLeastOneExists();
+        User ByUsernameAndPassword(string username, string password);
         void Create(User user);
     }
 }
