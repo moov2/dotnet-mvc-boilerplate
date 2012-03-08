@@ -7,7 +7,7 @@ namespace DotnetMvcBoilerplate.Controllers
 {
     public class LoginController : Controller
     {
-        private const string LoginFailedFeedback = "Unable to login.";
+        private const string LoginFailedFeedback = "Unable to login, have another go.";
 
         private IUserService _userService;
 
