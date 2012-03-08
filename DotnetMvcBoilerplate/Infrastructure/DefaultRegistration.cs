@@ -2,6 +2,7 @@
 using MvcTurbine.ComponentModel;
 using DotnetMvcBoilerplate.Core.Provider;
 using DotnetMvcBoilerplate.Core.Service;
+using DotnetMvcBoilerplate.Core.Security;
 
 namespace DotnetMvcBoilerplate.Infrastructure
 {
@@ -11,6 +12,7 @@ namespace DotnetMvcBoilerplate.Infrastructure
         {
             locator.Register<IUserService, UserService>();
             locator.Register<IDatabaseProvider, MongoDatabaseProvider>();
+            locator.Register<IEncryption, Encryption>();
         }
     }
 }
