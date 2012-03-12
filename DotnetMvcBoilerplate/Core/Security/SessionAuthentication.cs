@@ -4,13 +4,13 @@ using System.Web;
 using DotnetMvcBoilerplate.Models;
 using System.Web.Security;
 using System.Configuration;
+using DotnetMvcBoilerplate.Core.Provider;
 
 namespace DotnetMvcBoilerplate.Core.Security
 {
     public class SessionAuthentication : ISessionAuthentication
     {
-        private string _cookieName;
-        private HttpResponseBase _response;
+        private IHttpContextProvider _httpContextProvider;
 
         /// <summary>
         /// Amount of minutes that a cookie should be active for.
@@ -28,10 +28,9 @@ namespace DotnetMvcBoilerplate.Core.Security
             get { return int.Parse(ConfigurationManager.AppSettings["RememberMeTimeout"]); }
         }
 
-        public SessionAuthentication(HttpResponseBase response, string cookieName)
+        public SessionAuthentication(IHttpContextProvider httpContextProvider)
         {
-            _response = response;
-            _cookieName = cookieName;
+            _httpContextProvider = httpContextProvider;
         }
 
         /// <summary>
@@ -70,12 +69,12 @@ namespace DotnetMvcBoilerplate.Core.Security
             var roles = string.Join(",", user.Roles.ToArray());
             var expireDate = GetExpiryDate(remember);
 
-            var cookie = new HttpCookie(_cookieName, CreateEncryptedTicket(user.Id.ToString(), roles, expireDate, remember));
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, CreateEncryptedTicket(user.Id.ToString(), roles, expireDate, remember));
 
             if (remember)
                 cookie.Expires = expireDate;
 
-            _response.Cookies.Add(cookie);
+            _httpContextProvider.Response.Cookies.Add(cookie);
         }
     }
 

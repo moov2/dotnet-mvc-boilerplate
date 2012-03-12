@@ -6,6 +6,8 @@ using AutoMoq;
 using DotnetMvcBoilerplate.ViewModels.Login;
 using DotnetMvcBoilerplate.Models;
 using DotnetMvcBoilerplate.Core.Service;
+using DotnetMvcBoilerplate.Core.Security;
+using Moq;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
 {
@@ -76,6 +78,24 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         }
 
         /// <summary>
+        /// Tests that a POST request to Index with valid credentials authenticates
+        /// the session with the user returned from the service and whether the user
+        /// has selected to remember me.
+        /// </summary>
+        [Test]
+        public void Index_PostWithValidCredentials_CallsStartOnSessionAuthenticationWithExpectedParameters()
+        {
+            var validUsername = "Username";
+            var validPassword = "Password";
+
+            var expectedUser = SetupAuth(validUsername, validPassword, true);
+            Login(validUsername, validPassword, true);
+
+            _autoMoqer.GetMock<ISessionAuthentication>().Verify(x => x.Start(expectedUser, true), Times.Once());
+
+        }
+
+        /// <summary>
         /// Calls Index on the LoginController with mock user entered data.
         /// </summary>
         /// <param name="username">Username entered by the user.</param>
@@ -109,7 +129,8 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         /// <param name="username">Expected username.</param>
         /// <param name="password">Expected password.</param>
         /// <param name="returned">Result of the authentication.</param>
-        public void SetupAuth(string username, string password, bool success)
+        /// <returns>Mock User returned from service..</returns>
+        public User SetupAuth(string username, string password, bool success)
         {
             User userReturned = null;
 
@@ -122,6 +143,8 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
 
             var mock = _autoMoqer.GetMock<IUserService>();
             mock.Setup(x => x.ByUsernameAndPassword(username, password)).Returns(userReturned);
+
+            return userReturned;
         }
     }
 }

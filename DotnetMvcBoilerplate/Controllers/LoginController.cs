@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using DotnetMvcBoilerplate.ViewModels.Login;
 using DotnetMvcBoilerplate.Core.Service;
+using DotnetMvcBoilerplate.Core.Security;
 
 namespace DotnetMvcBoilerplate.Controllers
 {
@@ -9,10 +10,12 @@ namespace DotnetMvcBoilerplate.Controllers
     {
         private const string LoginFailedFeedback = "Unable to login, have another go.";
 
+        private ISessionAuthentication _sessionAuthentication;
         private IUserService _userService;
 
-        public LoginController(IUserService userService)
+        public LoginController(ISessionAuthentication sessionAuthentication, IUserService userService)
         {
+            _sessionAuthentication = sessionAuthentication;
             _userService = userService;
         }
 
@@ -51,6 +54,8 @@ namespace DotnetMvcBoilerplate.Controllers
 
             if (user == null)
                 return FailedLogin(model);
+
+            _sessionAuthentication.Start(user, model.RememberMe);
              
             return Redirect("/");
         }

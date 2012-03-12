@@ -7,6 +7,7 @@ using DotnetMvcBoilerplate.Core.Security;
 using DotnetMvcBoilerplate.Tests.Unit.Utils;
 using System.Web.Security;
 using System.Configuration;
+using DotnetMvcBoilerplate.Core.Provider;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
 {
@@ -153,7 +154,7 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
             var response = _autoMoqer.GetMock<HttpResponseBase>();
             response.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
 
-            _autoMoqer.SetInstance<string>(CookieName);
+            _autoMoqer.GetMock<IHttpContextProvider>().Setup(x => x.Response).Returns(response.Object);
         }
     }
 }

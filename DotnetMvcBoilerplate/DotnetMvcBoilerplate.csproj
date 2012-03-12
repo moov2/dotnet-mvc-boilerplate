@@ -112,6 +112,7 @@
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Core\Provider\HttpContextProvider.cs" />
     <Compile Include="Core\Provider\IDatabaseProvider.cs" />
     <Compile Include="Core\Provider\MongoDatabaseProvider.cs" />
     <Compile Include="Core\Security\Encryption.cs" />
