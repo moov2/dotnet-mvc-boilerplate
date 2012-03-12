@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Core\Provider\IDatabaseProvider.cs" />
     <Compile Include="Core\Provider\MongoDatabaseProvider.cs" />
     <Compile Include="Core\Security\Encryption.cs" />
@@ -132,6 +133,7 @@
     <Content Include="Views\Shared\_Page.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\normalize.css" />
