@@ -8,6 +8,8 @@ using DotnetMvcBoilerplate.Tests.Unit.Utils;
 using System.Web.Security;
 using System.Configuration;
 using DotnetMvcBoilerplate.Core.Provider;
+using DotnetMvcBoilerplate.Models;
+using Moq;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
 {
@@ -37,6 +39,36 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
         public void Setup()
         {
             _autoMoqer = new AutoMoqer();
+        }
+
+        /// <summary>
+        /// Tests that the Username of the User is set on the
+        /// Session when calling SetSessionData.
+        /// </summary>
+        [Test]
+        public void SetSessionData_SetsUsernameOnSession()
+        {
+            var user = Fakes.Users()[0];
+            SetupMockParameters();
+
+            _autoMoqer.Resolve<SessionAuthentication>().SetSessionData(user);
+
+            _autoMoqer.GetMock<HttpSessionStateBase>().VerifySet(x => x["LoggedInAs"] = user.Username, Times.Once());
+        }
+
+        /// <summary>
+        /// Tests that when calling Start, SetSessionData
+        /// should also occur.
+        /// </summary>
+        [Test]
+        public void Start_ShouldSetSessionData()
+        {
+            var user = Fakes.Users()[0];
+            SetupMockParameters();
+
+            _autoMoqer.Resolve<SessionAuthentication>().Start(user, false); 
+
+            _autoMoqer.GetMock<HttpSessionStateBase>().VerifySet(x => x["LoggedInAs"] = user.Username, Times.Once());
         }
 
         /// <summary>
@@ -154,7 +186,10 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
             var response = _autoMoqer.GetMock<HttpResponseBase>();
             response.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
 
+            var session = _autoMoqer.GetMock<HttpSessionStateBase>();
+
             _autoMoqer.GetMock<IHttpContextProvider>().Setup(x => x.Response).Returns(response.Object);
+            _autoMoqer.GetMock<IHttpContextProvider>().Setup(x => x.Session).Returns(session.Object);
         }
     }
 }

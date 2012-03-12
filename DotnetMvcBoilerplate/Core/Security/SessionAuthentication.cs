@@ -58,6 +58,17 @@ namespace DotnetMvcBoilerplate.Core.Security
         }
 
         /// <summary>
+        /// Sets data about the User onto the Session
+        /// that is stored on the current context.
+        /// </summary>
+        /// <param name="user">User that the data being
+        /// set on the Session.</param>
+        public void SetSessionData(User user)
+        {
+            _httpContextProvider.Session["LoggedInAs"] = user.Username;
+        }
+
+        /// <summary>
         /// Authenticates the session, which changes the clients
         /// state to logged in.
         /// </summary>
@@ -75,11 +86,14 @@ namespace DotnetMvcBoilerplate.Core.Security
                 cookie.Expires = expireDate;
 
             _httpContextProvider.Response.Cookies.Add(cookie);
+
+            SetSessionData(user);
         }
     }
 
     public interface ISessionAuthentication
     {
         void Start(User user, bool remember);
+        void SetSessionData(User user);
     }
 }

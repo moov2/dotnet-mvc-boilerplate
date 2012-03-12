@@ -19,7 +19,16 @@ namespace DotnetMvcBoilerplate.Core.Provider
         /// </summary>
         public HttpResponseBase Response
         {
-            get { return new HttpResponseWrapper(HttpContext.Current.Response); }
+            get { return new HttpResponseWrapper(Context.Response); }
+        }
+
+        /// <summary>
+        /// Returns the HttpSessionState that is stored
+        /// within the current HttpContext.
+        /// </summary>
+        public HttpSessionStateBase Session
+        {
+            get { return new HttpSessionStateWrapper(Context.Session); }
         }
     }
 
@@ -27,5 +36,7 @@ namespace DotnetMvcBoilerplate.Core.Provider
     {
         HttpContext Context { get; }
         HttpResponseBase Response { get; }
+        HttpSessionStateBase Session { get; }
+
     }
 }
