@@ -1,4 +1,6 @@
-﻿@{
+﻿@using DotnetMvcBoilerplate.Models
+
+@{
     Layout = "~/Views/Shared/_Page.cshtml";
 }
 
@@ -11,6 +13,10 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
 
+        @if (User.IsInRole(Role.Admin)) {
+            <a href="/Admin">Admin Area</a>
+        }
+        
         @if (User.Identity.IsAuthenticated) {
             <div class="login">
                 <strong>Logged in as </strong><a href="/Profile">@Session["LoggedInAs"]</a> <a href="/Logout">Logout</a>
