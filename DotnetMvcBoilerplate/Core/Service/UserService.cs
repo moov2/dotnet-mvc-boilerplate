@@ -2,6 +2,7 @@
 using DotnetMvcBoilerplate.Models;
 using DotnetMvcBoilerplate.Core.Provider;
 using DotnetMvcBoilerplate.Core.Security;
+using MongoDB.Bson;
 
 namespace DotnetMvcBoilerplate.Core.Service
 {
@@ -29,6 +30,30 @@ namespace DotnetMvcBoilerplate.Core.Service
         public bool AtLeastOneExists()
         {
             return _db.Users.All().ToList().Count > 0;
+        }
+
+        /// <summary>
+        /// Converts the Id into an ObjectId and then
+        /// fetches the user that is associated to the
+        /// Id.
+        /// </summary>
+        /// <param name="id">String representation of Id.</param>
+        /// <returns>User that matches provided Id, if there is
+        /// no match then null is returned.</returns>
+        public User ById(string id)
+        {
+            return ById(new ObjectId(id));
+        }
+
+        /// <summary>
+        /// Fetches the User that has the same Id as
+        /// the parameter provided.
+        /// </summary>
+        /// <param name="id">Id of the User.</param>
+        /// <returns></returns>
+        public User ById(ObjectId id)
+        {
+            return _db.Users.Get(id);
         }
 
         /// <summary>
@@ -64,6 +89,8 @@ namespace DotnetMvcBoilerplate.Core.Service
     public interface IUserService
     {
         bool AtLeastOneExists();
+        User ById(string id);
+        User ById(ObjectId id);
         User ByUsernameAndPassword(string username, string password);
         void Create(User user);
     }

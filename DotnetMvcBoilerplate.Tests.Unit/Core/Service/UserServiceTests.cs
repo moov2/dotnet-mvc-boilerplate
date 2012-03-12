@@ -8,6 +8,7 @@ using DotnetMvcBoilerplate.Core.Service;
 using System.Collections.Generic;
 using DotnetMvcBoilerplate.Core.Security;
 using Moq;
+using MongoDB.Bson;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Core.Service
 {
@@ -21,6 +22,7 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Service
         {
             _autoMoqer = new AutoMoqer();
             _memoryDatabaseProvider = new MemoryDatabaseProvider();
+            _memoryDatabaseProvider.SetKeyColumn("Users", "Id");
             _autoMoqer.SetInstance<IDatabaseProvider>(_memoryDatabaseProvider);
         }
 
@@ -49,6 +51,43 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Service
         {
             InsertFakeUsers(Fakes.Users());
             Assert.That(_autoMoqer.Resolve<UserService>().AtLeastOneExists(), Is.True);
+        }
+
+        /// <summary>
+        /// Tests that ById returns the User from that database that
+        /// matches the Id entered into the method.
+        /// </summary>
+        [Test]
+        public void ById_IdThatIsAssociatedToUser_ReturnsUser()
+        {
+            var users = Fakes.Users();
+            InsertFakeUsers(users);
+
+            Assert.That(_autoMoqer.Resolve<UserService>().ById(users[0].Id).Username, Is.EqualTo(users[0].Username));
+        }
+
+        /// <summary>
+        /// Tests that ById returns null when no Users with the Id
+        /// provided are found.
+        /// </summary>
+        [Test]
+        public void ById_IdThatIsntAssociatedToUser_ReturnsNull()
+        {
+            InsertFakeUsers(Fakes.Users());
+            Assert.That(_autoMoqer.Resolve<UserService>().ById(ObjectId.GenerateNewId()), Is.Null);
+        }
+
+        /// <summary>
+        /// Tests that ById with a string parameter returns the User from 
+        /// the database that matches the Id entered into the method.
+        /// </summary>
+        [Test]
+        public void ById_IdAsStringThatIsAssociatedToUser_ReturnsUser()
+        {
+            var users = Fakes.Users();
+            InsertFakeUsers(users);
+
+            Assert.That(_autoMoqer.Resolve<UserService>().ById(users[0].Id.ToString()).Username, Is.EqualTo(users[0].Username));
         }
 
         /// <summary>
