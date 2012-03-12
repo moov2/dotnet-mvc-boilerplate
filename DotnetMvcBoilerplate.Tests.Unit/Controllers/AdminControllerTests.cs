@@ -3,10 +3,11 @@ using System.Linq;
 using NUnit.Framework;
 using DotnetMvcBoilerplate.Controllers;
 using System.Web.Mvc;
+using DotnetMvcBoilerplate.Core.Security.Attributes;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
 {
-    public class ProfileControllerTests
+    public class AdminControllerTests
     {
         /// <summary>
         /// Tests that Index returns the view.
@@ -14,20 +15,20 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         [Test]
         public void Index_ReturnsView()
         {
-            Assert.That(new ProfileController().Index(), Is.InstanceOf<ViewResult>());
+            Assert.That(new AdminController().Index(), Is.InstanceOf<ViewResult>());
         }
 
         /// <summary>
-        /// Tests that unauthorized users are not able to
-        /// access the 
+        /// Tests that only Admin users can see the Index
+        /// page.
         /// </summary>
         [Test]
-        public void Index_UnauthorisedUsersCantAccess()
+        public void Index_OnlyAllowsAdminUsers()
         {
-            var propertyInfo = typeof(ProfileController).GetMethod("Index");
+            var propertyInfo = typeof(AdminController).GetMethod("Index");
 
-            var attribute = propertyInfo.GetCustomAttributes(typeof(AuthorizeAttribute), false)
-                                          .Cast<AuthorizeAttribute>()
+            var attribute = propertyInfo.GetCustomAttributes(typeof(AdminOnlyAttribute), false)
+                                          .Cast<AdminOnlyAttribute>()
                                           .FirstOrDefault();
 
             Assert.That(attribute, !Is.Null);

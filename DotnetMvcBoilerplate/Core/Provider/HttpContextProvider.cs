@@ -8,9 +8,9 @@ namespace DotnetMvcBoilerplate.Core.Provider
         /// <summary>
         /// Returns the current HttpContext.
         /// </summary>
-        public HttpContext Context
+        public HttpContextBase Context
         {
-            get { return HttpContext.Current; }
+            get { return new HttpContextWrapper(HttpContext.Current); }
         }
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace DotnetMvcBoilerplate.Core.Provider
         /// </summary>
         public HttpResponseBase Response
         {
-            get { return new HttpResponseWrapper(Context.Response); }
+            get { return Context.Response; }
         }
 
         /// <summary>
@@ -28,13 +28,13 @@ namespace DotnetMvcBoilerplate.Core.Provider
         /// </summary>
         public HttpSessionStateBase Session
         {
-            get { return new HttpSessionStateWrapper(Context.Session); }
+            get { return Context.Session; }
         }
     }
 
     public interface IHttpContextProvider
     {
-        HttpContext Context { get; }
+        HttpContextBase Context { get; }
         HttpResponseBase Response { get; }
         HttpSessionStateBase Session { get; }
 

@@ -5,6 +5,7 @@ using DotnetMvcBoilerplate.Models;
 using System.Web.Security;
 using System.Configuration;
 using DotnetMvcBoilerplate.Core.Provider;
+using System.Security.Principal;
 
 namespace DotnetMvcBoilerplate.Core.Security
 {
@@ -68,6 +69,20 @@ namespace DotnetMvcBoilerplate.Core.Security
         }
 
         /// <summary>
+        /// Extracts the UserData out of the FormsIdentity
+        /// on the current HttpContext and sets the Generic
+        /// Principal for the Context so that IsInRole can
+        /// function as expected.
+        /// </summary>
+        public void SetRoles()
+        {
+            FormsIdentity identity = (FormsIdentity)_httpContextProvider.Context.User.Identity;
+            FormsAuthenticationTicket ticket = identity.Ticket;
+            string[] roles = ticket.UserData.Split(',');
+            _httpContextProvider.Context.User = new GenericPrincipal(identity, roles);
+        }
+
+        /// <summary>
         /// Sets data about the User onto the Session
         /// that is stored on the current context.
         /// </summary>
@@ -105,6 +120,7 @@ namespace DotnetMvcBoilerplate.Core.Security
     {
         void End();
         void Start(User user, bool remember);
+        void SetRoles();
         void SetSessionData(User user);
     }
 }

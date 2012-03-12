@@ -110,11 +110,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Core\Provider\HttpContextProvider.cs" />
     <Compile Include="Core\Provider\IDatabaseProvider.cs" />
     <Compile Include="Core\Provider\MongoDatabaseProvider.cs" />
+    <Compile Include="Core\Security\Attributes\AdminOnlyAttribute.cs" />
     <Compile Include="Core\Security\Encryption.cs" />
     <Compile Include="Core\Security\Password.cs" />
     <Compile Include="Core\Security\SessionAuthentication.cs" />
@@ -136,6 +138,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\normalize.css" />

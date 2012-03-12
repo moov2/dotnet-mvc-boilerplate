@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Controllers\AdminControllerTests.cs" />
     <Compile Include="Controllers\HomeControllerTests.cs" />
     <Compile Include="Controllers\InstallControllerTests.cs" />
     <Compile Include="Controllers\LoginControllerTests.cs" />

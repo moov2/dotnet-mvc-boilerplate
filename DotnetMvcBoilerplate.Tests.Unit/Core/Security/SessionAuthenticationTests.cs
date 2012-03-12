@@ -10,6 +10,8 @@ using System.Configuration;
 using DotnetMvcBoilerplate.Core.Provider;
 using DotnetMvcBoilerplate.Models;
 using Moq;
+using MongoDB.Bson;
+using System.Security.Principal;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
 {
@@ -53,6 +55,21 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
             _autoMoqer.Resolve<SessionAuthentication>().End();
 
             _autoMoqer.GetMock<HttpSessionStateBase>().VerifySet(x => x["LoggedInAs"] = null, Times.Once());
+        }
+
+        /// <summary>
+        /// Tests that SetRoles should transfer the UserData on the current FormsIdentity
+        /// ticket 
+        /// </summary>
+        [Test]
+        public void SetRoles_ShouldTransferRolesOnUserDataToGenericPrincipal()
+        {
+            var identity = new FormsIdentity(new FormsAuthenticationTicket(1, ObjectId.GenerateNewId().ToString(), DateTime.Now, DateTime.Now.AddMinutes(20), false, Role.Admin));
+            SetupMockParameters(identity);
+
+            _autoMoqer.Resolve<SessionAuthentication>().SetRoles();
+
+            _autoMoqer.GetMock<HttpContextBase>().VerifySet(x => x.User = It.Is<GenericPrincipal>(c => c.Identity == identity && c.IsInRole(Role.Admin)), Times.Once());
         }
 
         /// <summary>
@@ -197,13 +214,34 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
         /// </summary>
         private void SetupMockParameters()
         {
+            SetupMockParameters(null);
+        }
+
+        /// <summary>
+        /// Sets up the mock parameters for SessionAuthentication.
+        /// </summary>
+        /// <param name="ticket">Ticket to be returned by the FormsIdentity
+        /// on the user property.</param>
+        /// <returns>FormsIdentity set on User.Identity on Context.</returns>
+        private void SetupMockParameters(FormsIdentity identity)
+        {
             var response = _autoMoqer.GetMock<HttpResponseBase>();
             response.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
 
             var session = _autoMoqer.GetMock<HttpSessionStateBase>();
 
+            var context = _autoMoqer.GetMock<HttpContextBase>();
+
+            _autoMoqer.GetMock<IHttpContextProvider>().Setup(x => x.Context).Returns(context.Object);
             _autoMoqer.GetMock<IHttpContextProvider>().Setup(x => x.Response).Returns(response.Object);
             _autoMoqer.GetMock<IHttpContextProvider>().Setup(x => x.Session).Returns(session.Object);
+
+            if (identity != null)
+            {
+                var principal = _autoMoqer.GetMock<IPrincipal>();
+                principal.Setup(x => x.Identity).Returns(identity);
+                context.Setup(x => x.User).Returns(principal.Object);
+            }
         }
     }
 }
