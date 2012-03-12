@@ -42,6 +42,20 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
         }
 
         /// <summary>
+        /// Tests that End method nullifies the Username that 
+        /// is stored on the Session.
+        /// </summary>
+        [Test]
+        public void End_ShouldNullifyLoggedInAsOnSession()
+        {
+            SetupMockParameters();
+
+            _autoMoqer.Resolve<SessionAuthentication>().End();
+
+            _autoMoqer.GetMock<HttpSessionStateBase>().VerifySet(x => x["LoggedInAs"] = null, Times.Once());
+        }
+
+        /// <summary>
         /// Tests that the Username of the User is set on the
         /// Session when calling SetSessionData.
         /// </summary>

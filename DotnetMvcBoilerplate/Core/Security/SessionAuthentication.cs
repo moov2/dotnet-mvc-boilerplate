@@ -47,6 +47,16 @@ namespace DotnetMvcBoilerplate.Core.Security
         }
 
         /// <summary>
+        /// Ends the Session.
+        /// </summary>
+        public void End()
+        {
+            try { FormsAuthentication.SignOut(); } catch { }
+
+            _httpContextProvider.Session["LoggedInAs"] = null;
+        }
+
+        /// <summary>
         /// Gets the date that the ticket should expire based if the user wants to be remembered
         /// when they next visit the site.
         /// </summary>
@@ -93,6 +103,7 @@ namespace DotnetMvcBoilerplate.Core.Security
 
     public interface ISessionAuthentication
     {
+        void End();
         void Start(User user, bool remember);
         void SetSessionData(User user);
     }

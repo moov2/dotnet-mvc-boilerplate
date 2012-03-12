@@ -12,10 +12,14 @@ namespace DotnetMvcBoilerplate.Infrastructure
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Logout",
+                "Logout",
+                new { controller = "Home", action = "Logout" });
+
+            routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = "" }
-            );
+                new { controller = "Home", action = "Index", id = "" });
         }
     }
 }
