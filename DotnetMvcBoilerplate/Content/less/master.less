@@ -13,15 +13,35 @@ body {
 
 header {
 	background: @dark;
-	height: 75px;
+	height: 215px;
 	padding-left: 30px;
 
 	h1 {
+		display: table-cell;
 		color: #fff;
-		font-size: 1.6em;
+		font-size: 6.5em;
 		font-weight: 550;
-		line-height: 75px;
+		height: 215px;
 		margin: 0;
+		vertical-align: middle;
+	}
+}
+
+@media all and (max-width: 1200px) {
+	header h1 {
+		font-size: 5em;
+	}
+}
+
+@media all and (max-width: 800px) {
+	header h1 {
+		font-size: 4em;
+	}
+}
+
+@media all and (max-width: 500px) {
+	header h1 {
+		font-size: 2em;
 	}
 }
 
