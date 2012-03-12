@@ -116,6 +116,7 @@
     <Compile Include="Core\Provider\MongoDatabaseProvider.cs" />
     <Compile Include="Core\Security\Encryption.cs" />
     <Compile Include="Core\Security\Password.cs" />
+    <Compile Include="Core\Security\SessionAuthentication.cs" />
     <Compile Include="Core\Service\UserService.cs" />
     <Compile Include="Core\IO\WindowsService.cs" />
     <Compile Include="Infrastructure\DefaultRegistration.cs" />
