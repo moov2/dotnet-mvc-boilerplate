@@ -10,7 +10,13 @@
         <a href="#">Home</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-        <a href="/Login" class="login">Login</a>
+
+        @if (User.Identity.IsAuthenticated) {
+            <a href="/Logout" class="login">Logout</a>
+        }
+        else {
+            <a href="/Login" class="login">Login</a>
+        }
     </nav>
 
     <div id="main">
