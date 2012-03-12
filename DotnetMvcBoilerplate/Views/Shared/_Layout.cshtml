@@ -12,9 +12,12 @@
         <a href="#contact">Contact</a>
 
         @if (User.Identity.IsAuthenticated) {
-            <a href="/Logout" class="login">Logout</a>
+            <div class="login">
+                <strong>Logged in as </strong><a href="/Profile">@Session["LoggedInAs"]</a> <a href="/Logout">Logout</a>
+            </div>
         }
-        else {
+        else
+        {
             <a href="/Login" class="login">Login</a>
         }
     </nav>
