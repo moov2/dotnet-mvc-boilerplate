@@ -159,7 +159,6 @@ nav {
 	background: #0593bb;
 	border-bottom: 1px solid #b1b1b1;
 	font-size: 0.85em;
-	height: 35px;
 	line-height: 35px;
 	padding-left: 30px;
 	position: relative;
@@ -182,5 +181,12 @@ nav {
 		padding-right: 30px;
 		position: absolute;
 		right: 0;
+	}
+}
+
+@media all and (max-width: 520px) {
+	nav .login {
+		display: inline-block;
+		position: inherit;
 	}
 }
