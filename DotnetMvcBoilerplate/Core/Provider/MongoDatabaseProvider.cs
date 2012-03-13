@@ -1,6 +1,7 @@
 ﻿using System;
 using Simple.Data;
 using Simple.Data.MongoDB;
+using System.Configuration;
 
 namespace DotnetMvcBoilerplate.Core.Provider
 {
@@ -13,7 +14,7 @@ namespace DotnetMvcBoilerplate.Core.Provider
         /// <returns>Open connection to Mongo.</returns>
         public dynamic GetDb()
         {
-            return Database.Opener.OpenMongo("mongodb://localhost/dotnet-mvc-boilerplate");
+            return Database.Opener.OpenMongo(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString);
         }
     }
 }
