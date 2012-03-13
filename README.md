@@ -2,6 +2,16 @@
 
 Project that offers a starting point for ASP.NET MVC projects.
 
+## Getting Started
+
+To get started copy the source from this repository (not including the .git folder) into the directory of the new project. Once all the files have been copied, run the **setup.exe** with the *-r <new-project-name>* argument. An example is shown below.
+
+	.\setup.exe -r MyProject
+
+The command above will setup project directories and files to be inline with the specified solution name, define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once you have run this command line process, you can delete the **setup.exe** file and begin working on your project.
+
+It is a good idea to run the *assets* target in the **commit.build** build script to generate all the JavaScript & CSS for the project.
+
 ## Third Party Libraries
 
 Below are a list of all the third party frameworks & tools used in the boilerplate.
