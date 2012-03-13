@@ -8,7 +8,7 @@ To get started copy the source from this repository (not including the .git fold
 
 	.\setup.exe -r MyProject
 
-The command above will setup project directories and files to be inline with the specified solution name, define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once you have run this command line process, you can delete the **setup.exe** file and begin working on your project.
+The command above will setup project directories and files to be inline with the specified solution name, define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
 
 It is a good idea to run the *assets* target in the **commit.build** build script to generate all the JavaScript & CSS for the project.
 
