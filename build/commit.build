@@ -43,7 +43,7 @@
 	<target name="default" depends="clean, prepare, compile, js, less, css, unit-test" />
 
 	<!-- only executes the js, less & css targets -->
-	<target name="assets" depends="js, less, css" />
+	<target name="assets" depends="prepare, js, less, css" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
 	<target name="clean">
