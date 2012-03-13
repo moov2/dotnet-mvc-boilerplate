@@ -14,7 +14,7 @@ It is a good idea to run the *assets* target in the **commit.build** build scrip
 
 ## Third Party Libraries
 
-Below are a list of all the third party frameworks & tools used in the boilerplate.
+Below is a list of all the third party frameworks & tools used in the boilerplate.
 
 * ASP.NET MVC 3
 * jQuery - 1.7.1
