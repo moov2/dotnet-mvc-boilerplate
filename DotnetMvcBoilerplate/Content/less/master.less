@@ -1,5 +1,6 @@
 ﻿@import "elements.less";
 
+@blue: #0593bb;
 @dark: #373737;
 
 body {
@@ -14,7 +15,9 @@ body {
 header {
 	background: @dark;
 	height: 215px;
+	overflow: hidden;
 	padding-left: 30px;
+	position: relative;
 
 	h1 {
 		display: table-cell;
@@ -24,6 +27,26 @@ header {
 		height: 215px;
 		margin: 0;
 		vertical-align: middle;
+	}
+
+	.version-bg {
+		background: @blue;
+		height: 200px;
+		position: absolute;
+		.rounded(100px);
+		right: -100px;
+		top: -100px;
+		width: 200px;
+	}
+
+	.version {
+		color: #fff;
+		font-size: 2em;
+		font-style: italic;
+		font-weight: bold;
+		position: absolute;
+		right: 15px;
+		top: 15px;
 	}
 }
 
@@ -98,7 +121,7 @@ html {
         }
 
         h1 {
-        	color: #0593bb;
+        	color: @blue;
         }
 
         input, label {
@@ -114,13 +137,13 @@ html {
             width: 296px;
 
             &:focus {
-            	border: 1px solid #0593bb;
+            	border: 1px solid @blue;
             	outline: none;
             }
         }
 
         input[type="submit"] {
-        	background: #0593bb;
+        	background: @blue;
         	border: 0;
         	color: #fff;
             float: right;
@@ -156,7 +179,7 @@ html {
 }
 
 nav {
-	background: #0593bb;
+	background: @blue;
 	border-bottom: 1px solid #b1b1b1;
 	font-size: 0.85em;
 	line-height: 35px;
