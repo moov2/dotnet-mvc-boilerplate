@@ -1,6 +1,6 @@
 # .NET MVC Boilerplate
 
-Project that offers a starting point for ASP.NET MVC projects.
+.NET MVC Boilerplate offers a starting point for web projects being developed using the popular ASP.NET MVC framework.
 
 ## Getting Started
 
@@ -20,6 +20,15 @@ The command above will setup project directories and files to be inline with the
 
 It is a good idea to run the *assets* target in the **commit.build** build script to generate all the JavaScript & CSS for the project.
 
+## Features
+
+* Uses Simple.Data to enable support for a wide range of database engines.
+* Integration with Simple.Data.Mongo for easy connectivity with a Mongo DB datastore.
+* User authentication process complete with roles that also includes the ability to create the primary admin user.
+* Demonstrates how to secure public methods in Controllers for authenticated users & authenticated users who are admins.
+* Unit test suite that is also integrated with the build script.
+* Provides a simple, customisable & responsive layout that works x-browser & x-device.
+
 ## Third Party Libraries
 
 Below is a list of all the third party frameworks & tools used in the boilerplate.
@@ -38,3 +47,4 @@ Below is a list of all the third party frameworks & tools used in the boilerplat
 * DataAnnotationsExtensions.MVC3 - 1.0.1.0
 * AutoMoq - 1.6.1
 * Moq - 4.0.20926
+
