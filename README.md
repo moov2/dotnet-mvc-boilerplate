@@ -4,7 +4,15 @@ Project that offers a starting point for ASP.NET MVC projects.
 
 ## Getting Started
 
-To get started copy the source from this repository (not including the .git folder) into the directory of the new project. Once all the files have been copied, run the **setup.exe** with the *-r <new-project-name>* argument. An example is shown below.
+Grab the source from this repository by either downloading the zip of the source or cloning via git.
+
+[Download Zip] (https://bitbucket.org/peterkeating/dotnet-mvc-boilerplate/get/7ef7b16eee5b.zip)
+
+	cd myproject
+	git clone https://peterkeating@bitbucket.org/peterkeating/dotnet-mvc-boilerplate.git
+	rm -rf .git
+
+Once the source is on your machine, run the **setup.exe** with the *-r <new-project-name>* argument. An example is shown below.
 
 	.\setup.exe -r MyProject
 
