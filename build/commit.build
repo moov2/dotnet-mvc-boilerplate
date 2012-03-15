@@ -40,20 +40,20 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="clean, prepare, compile, js, less, css, unit-test" />
+	<target name="default" depends="-clean, -prepare, -compile, -js, -less, -css, -unit-test" />
 
 	<!-- only executes the js, less & css targets -->
-	<target name="assets" depends="prepare, js, less, css" />
+	<target name="assets" depends="-prepare, -js, -less, -css" />
 
 	<!-- deletes any of the artifacts from any previous builds. -->
-	<target name="clean">
+	<target name="-clean">
 		<delete dir="${deploy.dir}" failonerror="false" /> 
 		<delete dir="${js.dir}" failonerror="false" />
 		<delete dir="${css.dir}" failonerror="false" />
 	</target>
 
 	<!-- creates the directories that are required for the build process. -->
-	<target name="prepare">
+	<target name="-prepare">
 		<mkdir dir="${deploy.dir}" />
 		<mkdir dir="${test.reports.dir}" />
 		<mkdir dir="${js.dir}" />
@@ -63,7 +63,7 @@
 	<!-- 
 		compiles the solution to ensure there are no compile errors. 
 	-->
-	<target name="compile">
+	<target name="-compile">
 		<exec program="${framework::get-framework-directory(framework.version)}\MSBuild.exe"
           	  commandline="${solution.file} /t:Clean,Build /p:PreBuildEvent= /p:PostBuildEvent="
           	  workingdir="."
@@ -75,7 +75,7 @@
 		files (script.js & plugins.js) that are placed into a js folder
 		in the root of the website.
 	-->
-	<target name="js">
+	<target name="-js">
 		<!-- 
 		copy modenizr on its own because it is loaded on its own in the
 		head of the document.
@@ -106,7 +106,7 @@
 	<!-- 
 		compiles the less files into css files.
 	-->
-	<target name="less">
+	<target name="-less">
 		<exec workingdir='.' 
 	          program="${lessc.cmd}" 
 	          commandline='"${less.src.dir}\master.less" "${css.dir}\master-less.css"' 
@@ -117,7 +117,7 @@
 		gathers all the css files into a single file (style.css) that
 		can reduce page load speed.
 	-->
-	<target name="css">
+	<target name="-css">
 		<concat destfile="${css.dir}/style.css">
 	      <fileset>
 	        <include asis="true" name="${css.src.dir}\normalize.css" />
@@ -132,7 +132,7 @@
 	<!--
 		Runs the unit tests.
 	-->
-	<target name="unit-test">
+	<target name="-unit-test">
 		<echo>${unit.tests.dll}</echo>
 
 	    <exec workingdir='.'
