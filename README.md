@@ -6,10 +6,10 @@
 
 Grab the source from this repository by either downloading the zip of the source or cloning via git.
 
-[Download Zip] (https://bitbucket.org/peterkeating/dotnet-mvc-boilerplate/get/7ef7b16eee5b.zip)
+[Download Zip] (https://github.com/moov2/dotnet-mvc-boilerplate/zipball/master)
 
 	cd myproject
-	git clone https://peterkeating@bitbucket.org/peterkeating/dotnet-mvc-boilerplate.git
+	git clone https://moov2@github.com/moov2/dotnet-mvc-boilerplate.git
 	rm -rf .git
 
 Once the source is on your machine, run the **setup.exe** with the *-r <new-project-name>* argument. An example is shown below.
