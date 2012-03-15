@@ -14,11 +14,11 @@ Grab the source from this repository by either downloading the zip of the source
 	git clone https://moov2@github.com/moov2/dotnet-mvc-boilerplate.git
 	rm -rf .git
 
-Once the source is on your machine, run the **setup.exe** with the *<new-project-name>* argument. An example is shown below.
+Once the source is on your machine, run the **setup.exe**, you will be prompted to enter a project name. Alternatively you can run **setup.exe** via the command line as shown below.
 
-	.\setup.exe MyProject
+	setup.exe MyProject
 
-The command above will setup project directories and files to be inline with the specified solution name, define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
+The command above will setup project directories and files to be inline with the specified solution name (value you entered when prompted), define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
 
 ## Features
 
