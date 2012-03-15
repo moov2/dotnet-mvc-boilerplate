@@ -20,6 +20,10 @@ Once the source is on your machine, run the **setup.exe**, you will be prompted 
 
 The command above will setup project directories and files to be inline with the specified solution name (value you entered when prompted), define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
 
+## Example
+
+For an example of the website that the boilerplate offers visit [http://boilerplate.moov2.com] (http://boilerplate.moov2.com). You can login using the credentials *Admin* & *password*.
+
 ## Features
 
 * Utilises Simple.Data to enable support for a wide range of database engines.
