@@ -32,6 +32,9 @@
   	<property name="test.reports.dir" value="${deploy.dir}\test-reports" />
   	<property name="unit.tests.dll" value="${base.dir}DotnetMvcBoilerplate.Tests.Unit\bin\Debug\DotnetMvcBoilerplate.Tests.Unit.dll" />
 
+  	<!-- release settings -->
+  	<property name="release.dir" value="${deploy.dir}\release" />
+
   	<!-- helpful features to enhance NAnt. -->
 	<loadtasks>
 		<fileset>
@@ -40,7 +43,7 @@
 	</loadtasks>
 
   	<!-- does the whole shibang to create the website ready to be released. -->
-	<target name="default" depends="-clean, -prepare, -compile, -js, -less, -css, -unit-test" />
+	<target name="default" depends="-clean, -prepare, -compile, -js, -less, -css, -unit-test, -release, -tidy" />
 
 	<!-- only executes the js, less & css targets -->
 	<target name="assets" depends="-prepare, -js, -less, -css" />
@@ -139,6 +142,33 @@
 	    	  program="${nunit.exe}"
 	          commandline='"${unit.tests.dll}" /xml:"${test.reports.dir}\unit-tests.xml"'
 	          failonerror="true"  />
+	</target>
+
+	<!-- 
+	builds a release version of the solution, and then
+	compiles the code into a website.
+	 -->
+	<target name="-release">
+	    <exec program="${framework::get-framework-directory(framework.version)}\MSBuild.exe"
+	          commandline="${solution.file} /t:rebuild /p:Configuration=Release /p:PreBuildEvent= /p:PostBuildEvent="
+	          workingdir="."
+	          failonerror="true"/>
+
+	    <exec program="${framework::get-framework-directory(framework.version)}\aspnet_compiler.exe"
+	          commandline='-c -p DotnetMvcBoilerplate -v / "${release.dir}"'
+	          workingdir="."
+	          failonerror="true" />
+	</target>
+
+	<!-- deletes files that aren't required from the release -->
+	<target name="-tidy">
+		<delete>
+		  	<fileset basedir="${release.dir}/Content">
+		    	<include name="**/**" />
+		  	</fileset>
+		</delete>
+
+		<delete dir="${release.dir}/Content" />
 	</target>
 
 </project>
