@@ -36,6 +36,7 @@ The command above will setup project directories and files to be inline with the
 	* concats custom & third party js files into seperate js files (scripts.js & plugins.js).
 	* compiles the solution, failing the build process if there are errors.
 	* runs the unit test suite with NUnit outputting results to an .xml file.
+	* builds a release version of the website.
 
 ## Third Party Libraries
 
