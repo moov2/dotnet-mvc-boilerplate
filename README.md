@@ -20,8 +20,6 @@ Once the source is on your machine, run the **setup.exe** with the *<new-project
 
 The command above will setup project directories and files to be inline with the specified solution name, define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
 
-It is a good idea to run the *assets* target in the **commit.build** build script to generate all the JavaScript & CSS for the project.
-
 ## Features
 
 * Utilises Simple.Data to enable support for a wide range of database engines.
