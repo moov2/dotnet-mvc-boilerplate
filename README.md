@@ -61,3 +61,10 @@ Below is a list of all the third party frameworks & tools used in the boilerplat
 * AutoMoq - 1.6.1
 * Moq - 4.0.20926
 
+## TODO
+
+* Implement some JavaScript features just to give an indication of how to add JS into the project.
+* Look into possible offering an ASP.NET MVC 4 Beta version to coincide with a future release.
+* Document how to switch out the MongoDB adapater for another.
+* Document the build script running through how everything is automated.
+* Document how the IoC functions.
