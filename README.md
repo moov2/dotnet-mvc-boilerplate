@@ -22,12 +22,20 @@ It is a good idea to run the *assets* target in the **commit.build** build scrip
 
 ## Features
 
-* Uses Simple.Data to enable support for a wide range of database engines.
+* Utilises Simple.Data to enable support for a wide range of database engines.
 * Integration with Simple.Data.Mongo for easy connectivity with a Mongo DB datastore.
 * User authentication process complete with roles that also includes the ability to create the primary admin user.
-* Demonstrates how to secure public methods in Controllers for authenticated users & authenticated users who are admins.
+* Demonstrates how to secure public methods in Controllers to give access only to authenticated users or restrict to just admins.
 * Unit test suite that is also integrated with the build script.
 * Provides a simple, customisable & responsive layout that works x-browser & x-device.
+* Website implemented using HTML5 semantic mark up.
+* CSS normalizations with normalize.css
+* CSS written using the Less dynamic stylesheet language providing a wealth of features for improved CSS development.
+* Automated build script that: 
+	* conerts .less files to .css, concats & minifies for a more performant stylesheet.
+	* concats custom & third party js files into seperate js files (scripts.js & plugins.js).
+	* compiles the solution, failing the build process if there are errors.
+	* runs the unit test suite with NUnit outputting results to an .xml file.
 
 ## Third Party Libraries
 
