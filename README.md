@@ -1,8 +1,8 @@
 # .NET MVC Boilerplate
 
-Ever started a new project and just ended up writing out the same code & copying files from a previous projects? If Yes, and your developing using the ASP.NET MVC framework then this is for you! .NET MVC Boilerplate offers an extendible & customisable base to give immediate focus on developing the project instead of spending time getting a skeleton in place.
+Ever started a new project and just ended up writing out the same code & copying files from a previous projects? If Yes, and you're developing using the ASP.NET MVC framework then this is for you! .NET MVC Boilerplate offers an extendible & customisable base to give immediate focus on developing the project instead of spending time getting a skeleton in place.
 
-We decided to build this project to give a great starting point instead of having to fath around with repeatable setup.
+We decided to build this project to give a great starting point instead of having to faff around with repeatable setup.
 
 ## Getting Started
 
