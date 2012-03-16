@@ -9,7 +9,7 @@ We decided to build this project to give a great starting point instead of havin
 Either download the [zipped source] (https://github.com/moov2/dotnet-mvc-boilerplate/zipball/master), extract and run the setup.exe or, if you want to feel like a pro, from your git bash:
 
 	git clone git://github.com/moov2/dotnet-mvc-boilerplate.git myproject
-	rm -rf .git
+	rm -rf myproject/.git
 	myproject/setup MyProject
 	
 
