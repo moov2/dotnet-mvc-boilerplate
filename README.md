@@ -6,19 +6,16 @@ We decided to build this project to give a great starting point instead of havin
 
 ## Getting Started
 
-Grab the source from this repository by either downloading the zip of the source or cloning via git.
+Either download the [zipped source] (https://github.com/moov2/dotnet-mvc-boilerplate/zipball/master), extract and run the setup.exe or, if you want to feel like a pro, from your git bash:
 
-[Download Zip] (https://github.com/moov2/dotnet-mvc-boilerplate/zipball/master)
-
-	cd myproject
-	git clone git://github.com/moov2/dotnet-mvc-boilerplate.git
+	git clone git://github.com/moov2/dotnet-mvc-boilerplate.git myproject
 	rm -rf .git
+	myproject/setup MyProject
+	
 
-Once the source is on your machine, run the **setup.exe**, you will be prompted to enter a project name. Alternatively you can run **setup.exe** via the command line as shown below.
+Open the Visual Studio .sln file, hit F5 et voila! Take the rest of the day off :)
 
-	setup.exe MyProject
-
-The command above will setup project directories and files to be inline with the specified solution name (value you entered when prompted), define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
+This will clone the boilerplate code into a directory called "myproject" and then invoke the bundled setup.exe passing it the project name. The command will setup project directories and files to be inline with the specified solution name (value you entered when prompted), define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
 
 ## Example
 
