@@ -13,6 +13,14 @@ namespace DotnetMvcBoilerplate.Controllers
         private ISessionAuthentication _sessionAuthentication;
         private IUserService _userService;
 
+        private string ReturnUrl
+        {
+            get
+            {
+                return (String.IsNullOrEmpty(Request.QueryString["ReturnUrl"])) ? "/" : Request.QueryString["ReturnUrl"];
+            }
+        }
+
         public LoginController(ISessionAuthentication sessionAuthentication, IUserService userService)
         {
             _sessionAuthentication = sessionAuthentication;
@@ -56,8 +64,8 @@ namespace DotnetMvcBoilerplate.Controllers
                 return FailedLogin(model);
 
             _sessionAuthentication.Start(user, model.RememberMe);
-             
-            return Redirect("/");
+
+            return Redirect(ReturnUrl);
         }
     }
 }

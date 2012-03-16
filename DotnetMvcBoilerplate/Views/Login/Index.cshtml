@@ -6,17 +6,16 @@
 }
 
 <div id="login-page">
+    <form method="post" class="clearfix">
 
-    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "clearfix" }))
-    {
-        if (TempData["LogoutFeedback"] != null)
+        @if (TempData["LogoutFeedback"] != null)
         {
             <div class="logout-feedback">
                 @TempData["LogoutFeedback"]
             </div>
         }
 
-        if (ViewData["Feedback"] != null)
+        @if (ViewData["Feedback"] != null)
         {
             <div class="fail-feedback">
                 @ViewData["Feedback"]
@@ -35,6 +34,6 @@
         </div>
         
         <input type="submit" value="Login" />
-    }
+    </form>
 
 </div>

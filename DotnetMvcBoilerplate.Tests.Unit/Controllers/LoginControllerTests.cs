@@ -8,6 +8,7 @@ using DotnetMvcBoilerplate.Models;
 using DotnetMvcBoilerplate.Core.Service;
 using DotnetMvcBoilerplate.Core.Security;
 using Moq;
+using DotnetMvcBoilerplate.Tests.Unit.Utils;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
 {
@@ -92,7 +93,24 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
             Login(validUsername, validPassword, true);
 
             _autoMoqer.GetMock<ISessionAuthentication>().Verify(x => x.Start(expectedUser, true), Times.Once());
+        }
 
+        /// <summary>
+        /// Tests a POST request to Index with valid credentials and a ReturnUrl specified
+        /// in the Requests query strings, should redirect the client to the Url value stored
+        /// in ReturnUrl.
+        /// </summary>
+        [Test]
+        public void Index_PostWithValidCredentialsAndReturnUrl_RedirectsUserToReturnUrl()
+        {
+            var expectedUrl = "/Admin";
+            var validUsername = "Username";
+            var validPassword = "Password";
+            
+            SetupAuth(validUsername, validPassword, true);
+
+            var result = (RedirectResult)Login(validUsername, validPassword, true, expectedUrl);
+            Assert.That(result.Url, Is.EqualTo(expectedUrl));
         }
 
         /// <summary>
@@ -104,7 +122,26 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         /// <returns>Result from LoginController.Index.</returns>
         public ActionResult Login(string username, string password, bool remember)
         {
-            return _autoMoqer.Resolve<LoginController>().Index(CreateLoginViewModel(username, password, remember));
+            return Login(username, password, remember, null);
+        }
+
+        /// <summary>
+        /// Calls Index on the LoginController with mock user entered data.
+        /// </summary>
+        /// <param name="username">Username entered by the user.</param>
+        /// <param name="password">Password entered by the user.</param>
+        /// <param name="remember">Remember me entered by the user.</param>
+        /// <param name="returnUrl">ReturnUrl stored in the QueryString Request collection.</param>
+        /// <returns>Result from LoginController.Index.</returns>
+        public ActionResult Login(string username, string password, bool remember, string returnUrl)
+        {
+            var controller = _autoMoqer.Resolve<LoginController>();
+            ControllerTestsUtils.SetMockContext(_autoMoqer, controller);
+
+            if (!String.IsNullOrEmpty(returnUrl))
+                controller.Request.QueryString["ReturnUrl"] = returnUrl;
+
+            return controller.Index(CreateLoginViewModel(username, password, remember));
         }
 
         /// <summary>
