@@ -11,7 +11,7 @@ Grab the source from this repository by either downloading the zip of the source
 [Download Zip] (https://github.com/moov2/dotnet-mvc-boilerplate/zipball/master)
 
 	cd myproject
-	git clone https://moov2@github.com/moov2/dotnet-mvc-boilerplate.git
+	git clone git://github.com/moov2/dotnet-mvc-boilerplate.git
 	rm -rf .git
 
 Once the source is on your machine, run the **setup.exe**, you will be prompted to enter a project name. Alternatively you can run **setup.exe** via the command line as shown below.
