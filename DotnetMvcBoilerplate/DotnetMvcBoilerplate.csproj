@@ -112,6 +112,7 @@
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Controllers\MongoNotInstalledController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Core\Provider\HttpContextProvider.cs" />
     <Compile Include="Core\Provider\IDatabaseProvider.cs" />
@@ -139,6 +140,7 @@
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\MongoNotInstalled\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\normalize.css" />
