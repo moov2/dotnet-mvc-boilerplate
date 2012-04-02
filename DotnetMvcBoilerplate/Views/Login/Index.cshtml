@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Page.cshtml";
 }
 
-<div id="login-page">
-    <form method="post" class="clearfix">
+<div id="single-form-page">
+    <form method="post">
 
         @if (TempData["LogoutFeedback"] != null)
         {
-            <div class="logout-feedback">
+            <div class="generic-feedback">
                 @TempData["LogoutFeedback"]
             </div>
         }
@@ -35,5 +35,4 @@
         
         <input type="submit" value="Login" />
     </form>
-
 </div>

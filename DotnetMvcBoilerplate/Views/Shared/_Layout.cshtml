@@ -21,13 +21,13 @@
         }
         
         @if (User.Identity.IsAuthenticated) {
-            <div class="login">
+            <div class="right-aligned-option">
                 <strong>Logged in as </strong><a href="/Profile">@Session["LoggedInAs"]</a> <a href="/Logout">Logout</a>
             </div>
         }
         else
         {
-            <a href="/Login" class="login">Login</a>
+            <a href="/Login" class="right-aligned-option">Login</a>
         }
     </nav>
 

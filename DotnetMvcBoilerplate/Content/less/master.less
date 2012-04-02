@@ -73,8 +73,8 @@ html {
 	min-height: 100%;
 }
 
-#login-page, #install-page {
-	height: 100%;
+#single-form-page {
+	padding: 30px 0 0 0;
 	position: relative;
 	width: 100%;
 
@@ -83,14 +83,11 @@ html {
 		border: 1px solid #e1e1e1;
 		.drop-shadow(0, 2px, 10px, 0.2);
 		font-size: 0.9em;
-		left: 50%;
-		margin-left: -155px;
+		margin: 0 auto;
+		max-width: 300px;
 		min-height: 144px;
 		padding: 20px;
-		position:absolute;
 		.rounded(8px);
-		top: 10%;
-		width: 310px;
 
 		.checkbox {
             float: left;
@@ -120,6 +117,11 @@ html {
         	.rounded(3px);
         }
 
+        .generic-feedback {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
         h1 {
         	color: @blue;
         }
@@ -134,7 +136,7 @@ html {
             margin-bottom: 5px;
             padding: 5px;
             .rounded(3px);
-            width: 296px;
+            width: 286px;
 
             &:focus {
             	border: 1px solid @blue;
@@ -157,11 +159,6 @@ html {
             &:hover {
                 .drop-shadow(0, 2px, 4px, 0.2);
             }
-        }
-
-        .logout-feedback {
-            font-weight: bold;
-            margin-bottom: 4px;
         }
 	}
 }
@@ -199,7 +196,7 @@ nav {
 		}
 	}
 
-	.login {
+	.right-aligned-option {
 		display: inline;
 		padding-right: 30px;
 		position: absolute;
@@ -208,7 +205,7 @@ nav {
 }
 
 @media all and (max-width: 520px) {
-	nav .login {
+	nav .right-aligned-option {
 		display: inline-block;
 		position: inherit;
 	}
