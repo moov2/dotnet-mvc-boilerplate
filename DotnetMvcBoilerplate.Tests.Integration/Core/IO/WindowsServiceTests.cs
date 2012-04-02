@@ -9,6 +9,8 @@ namespace DotnetMvcBoilerplate.Tests.Integration.Core.IO
     {
         private static int Timeout = 3000;
 
+        private static string ServiceThatDoesntExist = "Windows Service That Doesnt Exist";
+
         /// <summary>
         /// Flag indicating whether the test windows service
         /// is running before.
@@ -41,6 +43,38 @@ namespace DotnetMvcBoilerplate.Tests.Integration.Core.IO
 
             WindowsService.StartIfNotRunning(WindowsService.MongoDB);
             Assert.That(IsTestServiceRunning(WindowsService.MongoDB), Is.True);
+        }
+
+        /// <summary>
+        /// Tests that a starting a windows service that isn't running returns true
+        /// upon successfully starting the service.
+        /// </summary>
+        [Test]
+        public void StartIfNotRunning_StartsTheWindowsService_ReturnsTrue()
+        {
+            StopService(WindowsService.MongoDB);
+            Assert.IsTrue(WindowsService.StartIfNotRunning(WindowsService.MongoDB));
+        }
+
+        /// <summary>
+        /// Tests that a starting a windows service that isn't running returns true
+        /// even though the windows service is already running.
+        /// </summary>
+        [Test]
+        public void StartIfNotRunning_ServiceAlreadyRunning_ReturnsTrue()
+        {
+            StartService(WindowsService.MongoDB);
+            Assert.IsTrue(WindowsService.StartIfNotRunning(WindowsService.MongoDB));
+        }
+
+        /// <summary>
+        /// Tests that trying to start a windows service that doesn't exist
+        /// returns false.
+        /// </summary>
+        [Test]
+        public void StartIfNotRunning_ServiceDoesntExist_ReturnsFalse()
+        {
+            Assert.IsFalse(WindowsService.StartIfNotRunning(ServiceThatDoesntExist));
         }
 
         /// <summary>

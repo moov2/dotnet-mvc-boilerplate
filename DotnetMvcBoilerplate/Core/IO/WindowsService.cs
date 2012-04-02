@@ -48,10 +48,17 @@ namespace DotnetMvcBoilerplate.Core.IO
         /// Starts a windows service if it isn't running.
         /// </summary>
         /// <param name="name">Name of the service to run.</param>
-        public static void StartIfNotRunning(string serviceName)
+        public static bool StartIfNotRunning(string serviceName)
         {
-            if (!Running(serviceName))
-                Start(serviceName);
+            try {
+                if (!Running(serviceName))
+                    Start(serviceName);
+            }
+            catch {
+                return false;
+            }
+
+            return true;
         }
     }
 }
