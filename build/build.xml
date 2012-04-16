@@ -2,7 +2,11 @@
 <!DOCTYPE project>
 <project name="DotnetMvcBoilerplate" default="build" basedir="../">
 
-	<property name="tools.dir" value="${basedir}/build/tools" />
+    <!-- load shell environment -->
+    <property environment="ENV" />
+    
+    <property file="build/config/project.properties"/>
+ 
 
     <!-- load in Ant-Contrib to give us access to some very useful tasks! -->
     <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -18,45 +22,6 @@
 		</classpath>
 	</taskdef>
 
-    <!-- load shell environment -->
-    <property environment="ENV" />
-    
-    <property file="build/config/project.properties"/>
-
-    <property name="yuicompressor.jar" value="${tools.dir}\yuicompressor\yuicompressor-2.4.7.jar" />
-
-	<property name="lessc.cmd" value="${tools.dir}/lessc/lessc.cmd" />
-
-    <property name="intermediate.dir" value="${deploy.dir}/intermediate" />
-    <property name="project.dir" value="${basedir}/DotnetMvcBoilerplate" />
-    <property name="test.reports.dir" value="${deploy.dir}/test-reports" />
-    <property name="nant.buildfile" value="${basedir}/build/dotnet-tasks.build" />
-
-    <!-- css settings -->
-    <property name="css.dir" value="${project.dir}/css" />
-	<property name="less.dir" value="${css.dir}/less" />
-    <property name="default.stylesheets.file" value="style.css" />
-
-    <property name="intermediate.css.dir" value="${intermediate.dir}/css" />
-    <property name="intermediate.js.dir" value="${intermediate.dir}/js" />
-
-    <property name="hash.length" value="7" />
-
-    <!--
-        Comma seperated list of the css files that will be concatenated
-        into a single file and removed from the page-files.
-    -->
-    <property name="included.stylesheets" value="normalize.css,master.less.css" />
-
-    <property name="included.less.stylesheets" value="master.less" />
-
-    <!--
-        Comma seperated list of the files that should have its js &
-        css stripped out. NOTE: If the file is in a sub directory do
-        NOT start it with a slash.
-    -->
-    <property name="page-files" value="Views/Shared/_Page.cshtml" />
- 
 	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
 
 	<!-- 
@@ -106,8 +71,8 @@
         <for param="less.file" parallel="true" list="${included.less.stylesheets}">
             <sequential>
                 <echo>compiling @{less.file} to @{less.file}.css</echo>
-                <exec dir="${basedir}" executable="${lessc.cmd}" failifexecutionfails='true'>
-                    <arg line='"${less.dir}/@{less.file}" "${css.dir}\@{less.file}.css"' />
+                <exec dir="${basedir}" executable="${tool.lessc}" failifexecutionfails='true'>
+                    <arg line='"${project.dir}/${css.dir}/${less.dir}/@{less.file}" "${project.dir}/${css.dir}/@{less.file}.css"' />
                 </exec>
             </sequential>
         </for>
@@ -130,7 +95,7 @@
   	<target name="-copytointermediate">
 		<copy todir="${intermediate.dir}">
             <fileset dir="${project.dir}" />
-      </copy>
+        </copy>
   	</target>
 
     <target name="-css" depends="-lesstocss, -removeclientless, -css.concat, -css.min, -css.cache" />
@@ -154,7 +119,7 @@
         Removes the client side less javascript library.
     -->
     <target name="-removeclientless">
-        <replaceregexp  match="&lt;script src=&quot;/js/libs/less-1.3.0.min.js&quot;.*&gt;" replace=" " flags="m">
+        <replaceregexp  match="&lt;script src=&quot;${js.libs.dir}/${less.js.file}&quot;.*&gt;" replace=" " flags="m">
             <fileset dir="${intermediate.dir}" includes="${page-files}"/>
         </replaceregexp>
     </target>
@@ -167,8 +132,8 @@
     <target name="-css.concat">
         <for param="css.file" parallel="true" list="${included.stylesheets}">
             <sequential>
-                <concat destfile="${intermediate.css.dir}\style.css" append="yes">
-                    <filelist dir="${intermediate.css.dir}" files="@{css.file}"/>
+                <concat destfile="${intermediate.dir}/${css.dir}/${default.stylesheets.file}" append="yes">
+                    <filelist dir="${intermediate.dir}/${css.dir}" files="@{css.file}"/>
                 </concat>
             </sequential>
         </for>
@@ -181,13 +146,13 @@
     -->
     <target name="-css.min">
         <apply executable="java" parallel="false">
-            <fileset dir="${intermediate.css.dir}" includes="style.css"/>
+            <fileset dir="${intermediate.dir}/${css.dir}" includes="${default.stylesheets.file}" />
             <arg line="-jar"/>
-            <arg path="${yuicompressor.jar}"/>
+            <arg path="${tool.yuicompressor}"/>
             <srcfile/>
             <arg line="--type css"/>
             <arg line="-o"/>
-            <mapper type="merge" to="${intermediate.css.dir}/style.min.css"/>
+            <mapper type="merge" to="${intermediate.dir}/${css.dir}/style.min.css"/>
             <targetfile/>
         </apply>
     </target>
@@ -199,10 +164,10 @@
         to the main stylesheet file is changed to point at the renamed stylesheet.
     -->
     <target name="-css.cache">
-        <checksum file="${intermediate.css.dir}/style.min.css" algorithm="sha" property="css.fullsha" />
+        <checksum file="${intermediate.dir}/${css.dir}/style.min.css" algorithm="sha" property="css.fullsha" />
         <propertyregex property="css.sha" input="${css.fullsha}" regexp=".{${hash.length}}" select="\0" />
-        <property name="style.css" value="${dir.css}/${css.sha}.css" />
-        <copy file="${intermediate.css.dir}/style.min.css" tofile="${intermediate.css.dir}/${css.sha}.css" />
+        <property name="style.css" value="${css.dir}/${css.sha}.css" />
+        <copy file="${intermediate.dir}/${css.dir}/style.min.css" tofile="${intermediate.dir}/${css.dir}/${css.sha}.css" />
 
         <replaceregexp  match="&lt;link(.+)href=['&quot;]?(.*)/${default.stylesheets.file}(?:\?.*)?['&quot;\s]?(.*/?&gt;)"
                         replace="&lt;link\1href='\2/${css.sha}.css'\3" flags="m">
@@ -227,13 +192,13 @@
     -->
     <target name="-js.min">
         <apply executable="java" parallel="false">
-            <fileset dir="${intermediate.js.dir}" includes="scripts-concat.js"/>
+            <fileset dir="${intermediate.dir}/${js.dir}" includes="scripts-concat.js"/>
             <arg line="-jar"/>
-            <arg path="${yuicompressor.jar}"/>
+            <arg path="${tool.yuicompressor}"/>
             <srcfile/>
             <arg line="--type js"/>
             <arg line="-o"/>
-            <mapper type="merge" to="${intermediate.js.dir}/scripts-concat.min.js"/>
+            <mapper type="merge" to="${intermediate.dir}/${js.dir}/scripts-concat.min.js"/>
             <targetfile/>
         </apply>
     </target>
@@ -257,7 +222,7 @@
 
         <for param="js.file" parallel="true" list="${scripts.ordered}">
             <sequential>
-                <concat destfile="${intermediate.js.dir}\scripts-concat.js" append="yes">
+                <concat destfile="${intermediate.dir}/${js.dir}/scripts-concat.js" append="yes">
                     <filelist dir="${intermediate.dir}" files="@{js.file}"/>
                 </concat>
             </sequential>
@@ -271,10 +236,10 @@
         replaced with the name of the new cache busting java script file.
     -->
     <target name="-js.cache">
-        <checksum file="${intermediate.js.dir}/scripts-concat.min.js" algorithm="sha" property="scripts.fullsha" />
+        <checksum file="${intermediate.dir}/${js.dir}/scripts-concat.min.js" algorithm="sha" property="scripts.fullsha" />
         <propertyregex property="scripts.sha" input="${scripts.fullsha}" regexp=".{${hash.length}}" select="\0" />
-        <property name="scripts.js" value="${intermediate.dir.js}/${scripts.sha}.js" />
-        <copy file="${intermediate.js.dir}/scripts-concat.min.js" tofile="${intermediate.js.dir}/${scripts.sha}.js" />
+        <property name="scripts.js" value="${intermediate.dir}/${js.dir}/${scripts.sha}.js" />
+        <copy file="${intermediate.dir}/${js.dir}/scripts-concat.min.js" tofile="${intermediate.dir}/${js.dir}/${scripts.sha}.js" />
 
         <var name="matchRegex" value="&lt;!-- scripts concatenated [\d\w\s\W]*[\d\w\s\W]*&lt;!-- end ((scripts)|(concatenated and minified scripts))\s*--&gt;" />
         <var name="replaceRegex" value="&lt;script src='\1/${scripts.sha}.js\'&gt;&lt;/script&gt;" />
