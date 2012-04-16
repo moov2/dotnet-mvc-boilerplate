@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project name="DotnetMvcBoilerplate-nant" basedir="..\">
+
+	<property name="base.dir" value="${project::get-base-directory()}" />
+
+  	<!-- .net project settings -->
+  	<property name="solution.file" value="DotnetMvcBoilerplate.sln" />
+  	<property name="framework.version" value="net-4.0" />
+
+  	<!-- build tools. -->
+  	<property name="tools.dir" value="${base.dir}build/tools" />
+  	<property name="nantcontrib.dll" value="${tools.dir}/nantcontrib-0.91-rc1/libs/NAnt.Contrib.Tasks.dll" />
+	<property name="nunit.exe" value="${tools.dir}/nunit/nunit-console.exe" />
+
+  	<!-- publish settings -->
+  	<property name="deploy.dir" value="${base.dir}/deploy" />
+  	<property name="intermediate.dir" value="${deploy.dir}/intermediate" />
+  	<property name="publish.dir" value="${deploy.dir}/publish" />
+  	
+  	<!-- unit test settings -->
+  	<property name="test.reports.dir" value="${deploy.dir}/test-reports" />
+  	<property name="unit.tests.dll" value="${base.dir}DotnetMvcBoilerplate.Tests.Unit/bin/Debug/DotnetMvcBoilerplate.Tests.Unit.dll" />
+
+  	<!-- helpful features to enhance NAnt. -->
+	<loadtasks>
+		<fileset>
+	  		<include name="${nantcontrib.dll}" />
+		</fileset>
+	</loadtasks>
+
+	<!-- 
+		compiles the solution to ensure there are no compile errors. 
+	-->
+	<target name="compile">
+		<exec program="${framework::get-framework-directory(framework.version)}\MSBuild.exe"
+          	  commandline="${solution.file} /t:Clean,Build /p:PreBuildEvent= /p:PostBuildEvent= /noconsolelogger"
+          	  workingdir="."
+          	  failonerror="true"/>
+	</target>
+
+	<!--
+		Runs the unit tests.
+	-->
+	<target name="unit-test">
+	    <exec workingdir='.'
+	    	  program="${nunit.exe}"
+	          commandline='"${unit.tests.dll}" /xml:"${test.reports.dir}\unit-tests.xml"'
+	          failonerror="true"  />
+	</target>
+
+	<!-- 
+		builds a release version of the solution.
+	 -->
+	<target name="compile-release">
+	    <exec program="${framework::get-framework-directory(framework.version)}\MSBuild.exe"
+	          commandline="${solution.file} /t:Clean,Rebuild /p:Configuration=Release /p:PreBuildEvent= /p:PostBuildEvent= /noconsolelogger"
+	          workingdir="."
+	          failonerror="true"/>
+	</target>
+
+	<!--
+		creates a published version of the web project
+	-->
+	<target name="publish">
+	    <exec program="${framework::get-framework-directory(framework.version)}\aspnet_compiler.exe"
+	          commandline='-c -p ${intermediate.dir} -v / "${publish.dir}"'
+	          workingdir="."
+	          failonerror="true" />
+	</target>
+</project>

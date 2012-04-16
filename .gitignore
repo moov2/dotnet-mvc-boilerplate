@@ -2,8 +2,7 @@ bin/
 obj/
 deploy/
 
-DotnetMvcBoilerplate/js/
-DotnetMvcBoilerplate/css/
+*.less.css
 
 *.suo
 *.user

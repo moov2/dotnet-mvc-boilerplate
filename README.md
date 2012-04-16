@@ -44,11 +44,11 @@ For an example of the website that the boilerplate offers visit [http://boilerpl
 Below is a list of all the third party frameworks & tools used in the boilerplate.
 
 * ASP.NET MVC 3
-* jQuery - 1.7.1
+* jQuery - 1.7.2
 * Modernizr - 2.5.3
 * NAntContrib - 0.91 RC 1
-* lesscss - 1.2.0
-* lessc - Feb 15th
+* lesscss - 1.3.0
+* less.js-windows - Apr 9th
 * NUnit - 2.6.0.12054
 * MVCTurbine with Unity - 3.4
 * Simple.Data.Core - 0.14.0.3
@@ -63,5 +63,4 @@ Below is a list of all the third party frameworks & tools used in the boilerplat
 * Implement some JavaScript features just to give an indication of how to add JS into the project.
 * Look into possible offering an ASP.NET MVC 4 Beta version to coincide with a future release.
 * Document how to switch out the MongoDB adapater for another.
-* Document the build script running through how everything is automated.
 * Document how the IoC functions.

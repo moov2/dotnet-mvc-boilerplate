@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<!DOCTYPE project>
+<project name="DotnetMvcBoilerplate" default="build" basedir="../">
+
+	<property name="tools.dir" value="${basedir}/build/tools" />
+
+    <!-- load in Ant-Contrib to give us access to some very useful tasks! -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="${tools.dir}/ant-contrib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <!-- load in ant-dotnet to allow us to access MSBuild & NUnit -->
+    <taskdef resource="org/apache/ant/dotnet/antlib.xml">
+		<classpath>
+			<pathelement location="${tools.dir}/ant-dotnet/ant-dotnet-1.1.jar"/>
+		</classpath>
+	</taskdef>
+
+    <!-- load shell environment -->
+    <property environment="ENV" />
+    
+    <property file="build/config/project.properties"/>
+
+    <property name="yuicompressor.jar" value="${tools.dir}\yuicompressor\yuicompressor-2.4.7.jar" />
+
+	<property name="lessc.cmd" value="${tools.dir}/lessc/lessc.cmd" />
+
+    <property name="intermediate.dir" value="${deploy.dir}/intermediate" />
+    <property name="project.dir" value="${basedir}/DotnetMvcBoilerplate" />
+    <property name="test.reports.dir" value="${deploy.dir}/test-reports" />
+    <property name="nant.buildfile" value="${basedir}/build/dotnet-tasks.build" />
+
+    <!-- css settings -->
+    <property name="css.dir" value="${project.dir}/css" />
+	<property name="less.dir" value="${css.dir}/less" />
+    <property name="default.stylesheets.file" value="style.css" />
+
+    <property name="intermediate.css.dir" value="${intermediate.dir}/css" />
+    <property name="intermediate.js.dir" value="${intermediate.dir}/js" />
+
+    <property name="hash.length" value="7" />
+
+    <!--
+        Comma seperated list of the css files that will be concatenated
+        into a single file and removed from the page-files.
+    -->
+    <property name="included.stylesheets" value="normalize.css,master.less.css" />
+
+    <property name="included.less.stylesheets" value="master.less" />
+
+    <!--
+        Comma seperated list of the files that should have its js &
+        css stripped out. NOTE: If the file is in a sub directory do
+        NOT start it with a slash.
+    -->
+    <property name="page-files" value="Views/Shared/_Page.cshtml" />
+ 
+	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
+
+	<!-- 
+		just compiles the less files into css 
+	-->
+	<target name="less" depends="-less" />
+
+	<!-- 
+		deletes the artifacts generated from the previous build, 
+		if there is one. 
+	-->
+	<target name="-clean" >
+      	<delete dir="${deploy.dir}" />
+  	</target>
+
+  	<!--
+		creates any directories that will be required during the
+		build process.
+  	-->
+  	<target name="-prepare">
+		<mkdir dir="${deploy.dir}" />
+		<mkdir dir="${test.reports.dir}" />
+  	</target>
+
+  	<!-- 
+  		compiles the solution to ensure there are no errors before
+  		we continue any further.
+  	-->
+  	<target name="-compile">
+  		<nant buildfile="${nant.buildfile}">
+	        <target name="compile" />
+ 	    </nant>
+  	</target>
+
+  	<!--
+		Runs the unit tests copying the reports to the 
+		deploy/test-reports directory.
+	-->
+  	<target name="-unit-test">
+  		<nant buildfile="${nant.buildfile}">
+	        <target name="unit-test" />
+ 	    </nant>
+  	</target>
+
+  	<!-- converts all the .less files into css files. -->
+  	<target name="-less">
+        <for param="less.file" parallel="true" list="${included.less.stylesheets}">
+            <sequential>
+                <echo>compiling @{less.file} to @{less.file}.css</echo>
+                <exec dir="${basedir}" executable="${lessc.cmd}" failifexecutionfails='true'>
+                    <arg line='"${less.dir}/@{less.file}" "${css.dir}\@{less.file}.css"' />
+                </exec>
+            </sequential>
+        </for>
+  	</target>
+
+  	<!--
+  		Compiles a release version of the solution, means
+  		all the debug information will be removed.
+  	-->
+  	<target name="-compile-release">
+  		<nant buildfile="${nant.buildfile}">
+	        <target name="compile-release" />
+ 	    </nant>
+  	</target>
+
+  	<!--
+  		Copies the web project into an intermediate location
+  		so we can modify files to speed up js, img & css loading
+  	-->
+  	<target name="-copytointermediate">
+		<copy todir="${intermediate.dir}">
+            <fileset dir="${project.dir}" />
+      </copy>
+  	</target>
+
+    <target name="-css" depends="-lesstocss, -removeclientless, -css.concat, -css.min, -css.cache" />
+
+    <!--
+        Modifies any .less external stylesheet imports, and converts them 
+        to be directed at the compiled .css versions of the .less files.
+    -->
+    <target name="-lesstocss">
+        <for param="less.file" parallel="true" list="${included.less.stylesheets}">
+            <sequential>
+                <replaceregexp  match="&lt;link(.+)href=['&quot;]?(.*)/less/@{less.file}(?:\?.*)?['&quot;\s]?(.*/?&gt;)"
+                                replace="&lt;link rel=&quot;stylesheet&quot; href=&quot;\2/@{less.file}.css&quot;\3" flags="m">
+                    <fileset dir="${intermediate.dir}" includes="${page-files}"/>
+                </replaceregexp>
+            </sequential>
+        </for>
+    </target>
+
+    <!--
+        Removes the client side less javascript library.
+    -->
+    <target name="-removeclientless">
+        <replaceregexp  match="&lt;script src=&quot;/js/libs/less-1.3.0.min.js&quot;.*&gt;" replace=" " flags="m">
+            <fileset dir="${intermediate.dir}" includes="${page-files}"/>
+        </replaceregexp>
+    </target>
+
+    <!-- 
+        Concats all the css files into a single css file for improved
+        page load. All the css files that have been concatenated are stripped
+        from the specified page files.
+    -->
+    <target name="-css.concat">
+        <for param="css.file" parallel="true" list="${included.stylesheets}">
+            <sequential>
+                <concat destfile="${intermediate.css.dir}\style.css" append="yes">
+                    <filelist dir="${intermediate.css.dir}" files="@{css.file}"/>
+                </concat>
+            </sequential>
+        </for>
+
+        <foreach list="${included.stylesheets}" param="css_file" target="-css-remove-concatenated-stylesheets" />
+    </target>
+
+    <!--
+        Minifies the concatenated css file.
+    -->
+    <target name="-css.min">
+        <apply executable="java" parallel="false">
+            <fileset dir="${intermediate.css.dir}" includes="style.css"/>
+            <arg line="-jar"/>
+            <arg path="${yuicompressor.jar}"/>
+            <srcfile/>
+            <arg line="--type css"/>
+            <arg line="-o"/>
+            <mapper type="merge" to="${intermediate.css.dir}/style.min.css"/>
+            <targetfile/>
+        </apply>
+    </target>
+
+    <!--
+        Changes the name of the name of the concatenated css file to ensure that any 
+        changes made to the stylesheet are presented to the user. The minified version
+        of the stylesheet is given a randomly generated new name and the <link> tag 
+        to the main stylesheet file is changed to point at the renamed stylesheet.
+    -->
+    <target name="-css.cache">
+        <checksum file="${intermediate.css.dir}/style.min.css" algorithm="sha" property="css.fullsha" />
+        <propertyregex property="css.sha" input="${css.fullsha}" regexp=".{${hash.length}}" select="\0" />
+        <property name="style.css" value="${dir.css}/${css.sha}.css" />
+        <copy file="${intermediate.css.dir}/style.min.css" tofile="${intermediate.css.dir}/${css.sha}.css" />
+
+        <replaceregexp  match="&lt;link(.+)href=['&quot;]?(.*)/${default.stylesheets.file}(?:\?.*)?['&quot;\s]?(.*/?&gt;)"
+                        replace="&lt;link\1href='\2/${css.sha}.css'\3" flags="m">
+            <fileset dir="${intermediate.dir}" includes="${page-files}"/>
+        </replaceregexp>
+    </target>
+
+    <!-- 
+        Removes the stylesheets that have been included
+        into the concatenated stylesheets.
+    -->
+    <target name="-css-remove-concatenated-stylesheets">
+        <replaceregexp match="&lt;link.+href=&quot;.*${css_file}&quot;.*&gt;" replace=" " byline="true">
+            <fileset dir="${intermediate.dir}" includes="${page-files}"/>
+        </replaceregexp>
+    </target>
+
+    <target name="-js" depends="-js.concat, -js.min, -js.cache" />
+
+    <!-- 
+        Minifies the concatenateed javascript file. 
+    -->
+    <target name="-js.min">
+        <apply executable="java" parallel="false">
+            <fileset dir="${intermediate.js.dir}" includes="scripts-concat.js"/>
+            <arg line="-jar"/>
+            <arg path="${yuicompressor.jar}"/>
+            <srcfile/>
+            <arg line="--type js"/>
+            <arg line="-o"/>
+            <mapper type="merge" to="${intermediate.js.dir}/scripts-concat.min.js"/>
+            <targetfile/>
+        </apply>
+    </target>
+
+    <!--
+        Concats all the js files that are inside the page files specified. These
+        js files are placed into a single file scripts.js file that is then copied
+        into a file with a cache buster name that is generated using the checksum.
+    -->
+    <target name="-js.concat">
+        <filelist id="file.root" dir="${intermediate.dir}" files="${page-files}" />
+
+        <apply executable="java" parallel="false" outputproperty="scripts.ordered">
+            <arg value="-cp"/>
+            <arg value="${tools.dir}/misc/" />
+            <arg value="ScriptsToConcat"/>
+            <first>
+                <filelist refid="file.root"/>
+            </first>
+        </apply>
+
+        <for param="js.file" parallel="true" list="${scripts.ordered}">
+            <sequential>
+                <concat destfile="${intermediate.js.dir}\scripts-concat.js" append="yes">
+                    <filelist dir="${intermediate.dir}" files="@{js.file}"/>
+                </concat>
+            </sequential>
+        </for>
+    </target>
+
+    <!--
+        Changes the name of the main concatenated scripts file to ensure that any 
+        the primary javascript file is never loaded from cached when a release is pushed.
+        The collection of javascript files in between the marker comments are removed and
+        replaced with the name of the new cache busting java script file.
+    -->
+    <target name="-js.cache">
+        <checksum file="${intermediate.js.dir}/scripts-concat.min.js" algorithm="sha" property="scripts.fullsha" />
+        <propertyregex property="scripts.sha" input="${scripts.fullsha}" regexp=".{${hash.length}}" select="\0" />
+        <property name="scripts.js" value="${intermediate.dir.js}/${scripts.sha}.js" />
+        <copy file="${intermediate.js.dir}/scripts-concat.min.js" tofile="${intermediate.js.dir}/${scripts.sha}.js" />
+
+        <var name="matchRegex" value="&lt;!-- scripts concatenated [\d\w\s\W]*[\d\w\s\W]*&lt;!-- end ((scripts)|(concatenated and minified scripts))\s*--&gt;" />
+        <var name="replaceRegex" value="&lt;script src='\1/${scripts.sha}.js\'&gt;&lt;/script&gt;" />
+
+        <replaceregexp match="${matchRegex}" replace="${replaceRegex}" flags="m">
+            <fileset dir="${intermediate.dir}" includes="${page-files}"/>
+        </replaceregexp>
+    </target>
+
+    <!-- 
+        publishes the intermediate project into a working website.
+    -->
+    <target name="-publish">
+        <nant buildfile="${nant.buildfile}">
+            <target name="publish" />
+        </nant>
+    </target>
+</project>
