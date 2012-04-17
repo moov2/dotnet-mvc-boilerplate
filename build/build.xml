@@ -242,7 +242,7 @@
         <copy file="${intermediate.dir}/${js.dir}/scripts-concat.min.js" tofile="${intermediate.dir}/${js.dir}/${scripts.sha}.js" />
 
         <var name="matchRegex" value="&lt;!-- scripts concatenated [\d\w\s\W]*[\d\w\s\W]*&lt;!-- end ((scripts)|(concatenated and minified scripts))\s*--&gt;" />
-        <var name="replaceRegex" value="&lt;script src='\1/${scripts.sha}.js\'&gt;&lt;/script&gt;" />
+        <var name="replaceRegex" value="&lt;script src='${js.dir}/${scripts.sha}.js\'&gt;&lt;/script&gt;" />
 
         <replaceregexp match="${matchRegex}" replace="${replaceRegex}" flags="m">
             <fileset dir="${intermediate.dir}" includes="${page-files}"/>
