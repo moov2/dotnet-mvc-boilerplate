@@ -17,6 +17,12 @@ Open the Visual Studio .sln file, hit F5 et voila! Take the rest of the day off 
 
 This will clone the boilerplate code into a directory called "myproject" and then invoke the bundled setup.exe passing it the project name. The command will setup project directories and files to be inline with the specified solution name (value you entered when prompted), define an available TCP port for the web project and rename the MongoDB connection string to *my-project*. Once this command line process has completed, delete the **setup.exe** file and the project is ready to be worked on.
 
+## Updates
+
+### 0.2
+
+Re-implemented the build script to allow for frictionless development by removing the dependancy on having NAnt.
+
 ## Example
 
 For an example of the website that the boilerplate offers visit [http://boilerplate.moov2.com] (http://boilerplate.moov2.com). You can login using the credentials *Admin* & *password*.
