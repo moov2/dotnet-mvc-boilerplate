@@ -40,7 +40,7 @@ For an example of the website that the boilerplate offers visit [http://boilerpl
 * CSS written using the Less dynamic stylesheet language providing a wealth of features for improved CSS development.
 * Automated build script that: 
 	* converts .less files to .css, concats & minifies for a more performant stylesheet.
-	* concats custom & third party js files into seperate js files (scripts.js & plugins.js).
+	* concats custom & third party js files into a single js file for a decreased number of requests per page.
 	* compiles the solution, failing the build process if there are errors.
 	* runs the unit test suite with NUnit outputting results to an .xml file.
 	* builds a release version of the website.
