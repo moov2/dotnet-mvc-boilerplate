@@ -63,7 +63,7 @@
 	-->
 	<target name="publish">
 	    <exec program="${framework::get-framework-directory(framework.version)}\aspnet_compiler.exe"
-	          commandline='-c -p ${intermediate.dir} -v / "${publish.dir}"'
+	          commandline='-c -p "${intermediate.dir}" -v / "${publish.dir}"'
 	          workingdir="."
 	          failonerror="true" />
 	</target>
