@@ -21,7 +21,7 @@ This will clone the boilerplate code into a directory called "myproject" and the
 
 ### 0.2
 
-Re-implemented the build script to allow for frictionless development by removing the dependancy on having NAnt.
+Re-implemented the build process to allow for frictionless development by removing the dependancy on having NAnt.
 
 ## Example
 
