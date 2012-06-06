@@ -34,11 +34,13 @@
     <Reference Include="AutoMoq">
       <HintPath>..\packages\AutoMoq.1.6.1\lib\AutoMoq.dll</HintPath>
     </Reference>
-    <Reference Include="DataAnnotationsExtensions">
-      <HintPath>..\packages\DataAnnotationsExtensions.1.0.1\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    <Reference Include="DataAnnotationsExtensions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=358a5681c50fd84c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="DataAnnotationsExtensions.ClientValidation">
-      <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.0.1\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation, Version=1.1.0.0, Culture=neutral, PublicKeyToken=358a5681c50fd84c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.2.0\lib\20\Microsoft.Practices.ServiceLocation.dll</HintPath>
