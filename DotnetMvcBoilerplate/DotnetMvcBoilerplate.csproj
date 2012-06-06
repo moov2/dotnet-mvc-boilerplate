@@ -164,6 +164,7 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\MongoNotInstalled\Index.cshtml" />
+    <Content Include="images\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\normalize.css" />
