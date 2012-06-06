@@ -28,7 +28,7 @@ namespace DotnetMvcBoilerplate.ViewModels.Install
             var user = new User();
             user.Username = Username;
             user.MakeAdmin();
-            user.Password = encryption.Encrypt(Password);
+            user.SetPassword(encryption.Encrypt(Password));
             return user;
         }
     }

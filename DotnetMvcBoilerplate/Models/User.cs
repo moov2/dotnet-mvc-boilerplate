@@ -8,7 +8,10 @@ namespace DotnetMvcBoilerplate.Models
     public class User
     {
         public ObjectId Id { get; set; }
-        public Password Password { get; set; }
+
+        public byte[] PasswordKey { get; set; }
+        public byte[] PasswordSalt { get; set; }
+
         public virtual string Username { get; set; }
         public IList<string> Roles { get; set; }
 
@@ -43,6 +46,16 @@ namespace DotnetMvcBoilerplate.Models
         public void MakeAdmin()
         {
             AddRole(Role.Admin);
+        }
+
+        /// <summary>
+        /// Sets the values of PasswordKey & PasswordSalt
+        /// using the values from the Password object.
+        /// </summary>
+        public void SetPassword(Password password)
+        {
+            PasswordKey = password.Key;
+            PasswordSalt = password.Salt;
         }
     }
 

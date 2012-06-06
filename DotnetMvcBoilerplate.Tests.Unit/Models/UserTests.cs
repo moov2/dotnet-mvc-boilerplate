@@ -4,6 +4,7 @@ using NUnit.Framework;
 using DotnetMvcBoilerplate.Models;
 using System.Collections.Generic;
 using MongoDB.Bson;
+using DotnetMvcBoilerplate.Core.Security;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Models
 {
@@ -69,6 +70,34 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Models
             var user = new User { Roles = new List<string> { Role.Admin } };
             user.MakeAdmin();
             Assert.That(user.Roles.Where(x => x == Role.Admin).Count(), Is.EqualTo(1));
+        }
+
+        /// <summary>
+        /// Tests that setting the Password sets the PasswordKey
+        /// to the expected value.
+        /// </summary>
+        [Test]
+        public void SetPassword_ShouldSetPasswordKey()
+        {
+            var password = new Encryption().Encrypt("password");
+            var user = new User();
+            user.SetPassword(password);
+
+            Assert.That(user.PasswordKey, Is.EqualTo(password.Key));
+        }
+
+        /// <summary>
+        /// Tests that setting the Password sets the PasswordSalt
+        /// to the expected value.
+        /// </summary>
+        [Test]
+        public void SetPassword_ShouldSetPasswordSalt()
+        {
+            var password = new Encryption().Encrypt("password");
+            var user = new User();
+            user.SetPassword(password);
+
+            Assert.That(user.PasswordSalt, Is.EqualTo(password.Salt));
         }
     }
 }

@@ -68,7 +68,7 @@ namespace DotnetMvcBoilerplate.Core.Service
         {
             var user = (User)_db.Users.FindByUsername(username);
 
-            if (user == null || !_encryption.DecryptCompare(password, user.Password))
+            if (user == null || !_encryption.DecryptCompare(password, new Password(user.PasswordKey, user.PasswordSalt)))
                 return null;
 
             return user;

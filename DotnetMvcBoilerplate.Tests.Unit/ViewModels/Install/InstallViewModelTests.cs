@@ -27,7 +27,11 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
         public void ToUser_ReturnsUserWithUsername()
         {
             const string expectedUsername = "My Username";
-            Assert.That(ToUserWithUsernameAndPassword(expectedUsername, "Password").Username, Is.EqualTo(expectedUsername));
+            const string userEnteredPassword = "Password";
+
+            SetupPasswordEncryption(userEnteredPassword);
+
+            Assert.That(ToUserWithUsernameAndPassword(expectedUsername, userEnteredPassword).Username, Is.EqualTo(expectedUsername));
         }
 
         /// <summary>
@@ -36,7 +40,10 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
         [Test]
         public void ToUser_ReturnsUserAsAnAdmin()
         {
-            Assert.That(ToUserWithUsernameAndPassword("Username", "Password").IsAdmin, Is.True);
+            const string userEnteredPassword = "Password";
+            SetupPasswordEncryption(userEnteredPassword);
+
+            Assert.That(ToUserWithUsernameAndPassword("Username", userEnteredPassword).IsAdmin, Is.True);
         }
 
         /// <summary>
@@ -46,11 +53,11 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
         [Test]
         public void ToUser_ReturnsUserWithEncryptedPassword()
         {
-            var expectedPassword = _autoMoqer.GetMock<Password>().Object;
-            var userEnteredPassword = "Password";
+            const string userEnteredPassword = "Password";
+            SetupPasswordEncryption(userEnteredPassword);
 
-            _autoMoqer.GetMock<IEncryption>().Setup(x => x.Encrypt(userEnteredPassword)).Returns(expectedPassword);
-            Assert.That(ToUserWithUsernameAndPassword("Username", userEnteredPassword).Password, Is.EqualTo(expectedPassword));
+            var user = ToUserWithUsernameAndPassword("Username", userEnteredPassword);
+            Assert.That(user.PasswordKey == _autoMoqer.GetMock<Password>().Object.Key && user.PasswordSalt == _autoMoqer.GetMock<Password>().Object.Salt, Is.True);
         }
 
         /// <summary>
@@ -99,6 +106,19 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
                                           .FirstOrDefault();
 
             Assert.That(attribute, !Is.Null);
+        }
+
+        /// <summary>
+        /// Sets up the IEncryption to ensure that a password is entered.
+        /// </summary>
+        /// <param name="password">The password to be encrypted.</param>
+        private void SetupPasswordEncryption(string password)
+        {
+            var mockExpectedPassword = _autoMoqer.GetMock<Password>();
+            mockExpectedPassword.Setup(x => x.Key).Returns(new byte[8]);
+            mockExpectedPassword.Setup(x => x.Salt).Returns(new byte[8]);
+
+            _autoMoqer.GetMock<IEncryption>().Setup(x => x.Encrypt(password)).Returns(mockExpectedPassword.Object);
         }
 
         /// <summary>
