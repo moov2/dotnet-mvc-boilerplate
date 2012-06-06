@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetMvcBoilerplate", "DotnetMvcBoilerplate\DotnetMvcBoilerplate.csproj", "{ECBDE82D-177D-452A-A405-F1CB94153373}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetMvcBoilerplate.Tests.Unit", "DotnetMvcBoilerplate.Tests.Unit\DotnetMvcBoilerplate.Tests.Unit.csproj", "{5A06B99B-D23A-45A8-873F-F65EF10EEBB1}"
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ECBDE82D-177D-452A-A405-F1CB94153373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECBDE82D-177D-452A-A405-F1CB94153373}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECBDE82D-177D-452A-A405-F1CB94153373}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECBDE82D-177D-452A-A405-F1CB94153373}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A06B99B-D23A-45A8-873F-F65EF10EEBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A06B99B-D23A-45A8-873F-F65EF10EEBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A06B99B-D23A-45A8-873F-F65EF10EEBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A06B99B-D23A-45A8-873F-F65EF10EEBB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECBDE82D-177D-452A-A405-F1CB94153373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECBDE82D-177D-452A-A405-F1CB94153373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECBDE82D-177D-452A-A405-F1CB94153373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECBDE82D-177D-452A-A405-F1CB94153373}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBEDCA50-026C-4DF9-9674-1EB6C5B9726A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBEDCA50-026C-4DF9-9674-1EB6C5B9726A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBEDCA50-026C-4DF9-9674-1EB6C5B9726A}.Release|Any CPU.ActiveCfg = Release|Any CPU
