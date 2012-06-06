@@ -22,7 +22,7 @@
 		</classpath>
 	</taskdef>
 
-	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
+	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish, -imagespng, -imageslosslessly" />
 
 	<!-- 
 		just compiles the less files into css 
@@ -256,5 +256,41 @@
         <nant buildfile="${nant.buildfile}">
             <target name="publish" />
         </nant>
+    </target>
+
+    <!-- 
+        Optimises all the PNG images to reduce their file size, this
+        may take a while depending on how many images there are.
+    -->
+    <target name="-imagespng">
+        <delete>
+            <fileset dir="${publish.dir}/${images.dir}/">
+                <include name="**/*.png"/>
+            </fileset>
+        </delete>
+
+        <apply executable="${tool.optipng}" dest="${publish.dir}/${images.dir}/" osfamily="windows">
+            <fileset dir="${intermediate.dir}/${images.dir}/" includes="**/*.png"  excludes="${images.bypass}, ${images.default.bypass}"/>
+            <arg value="-quiet"/>
+            <arg value="-o7"/>
+            <arg value="-out"/>
+            <targetfile/>
+            <srcfile/>
+            <mapper type="identity"/>
+        </apply>
+    </target>
+
+    <!--
+        Optimises all the images with losslessly compression. 
+    -->
+    <target name="-imageslosslessly">
+        <java  jar="${tool.smushit}"
+               fork="true"
+               failonerror="false"
+               maxmemory="128m">
+            <arg value="-imageDir=${publish.dir}/${images.dir}"/>
+            <arg value="-verbose=true" />
+            <arg value="-imgExtensions=png,jpeg,jpg" />
+       </java>
     </target>
 </project>
