@@ -37,6 +37,9 @@ public class ScriptsToConcat extends ParserCallback {
         }
         String scriptName = a.getAttribute(HTML.Attribute.SRC).toString();
         if(scriptName != null) {
+            if (scriptName.startsWith("/"))
+                scriptName = scriptName.substring(1, scriptName.length());
+
             System.out.println(scriptName);
         }
     }
