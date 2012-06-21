@@ -26,7 +26,7 @@
         full build process including everything required to validate the project and
         getting the project ready for live environment.
     -->
-	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish, -imagespng, -imageslosslessly" />
+	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
 
     <!--
         removes some of the slower targets in order to test the build process.
@@ -278,7 +278,7 @@
     -->
     <target name="-copyimages">
         <delete dir="${project.dir}/${optimised.images.dir}" />
-        
+
         <copy todir="${project.dir}/${optimised.images.dir}">
             <fileset dir="${project.dir}/${images.dir}">
                 <exclude name="**/*.md" />
