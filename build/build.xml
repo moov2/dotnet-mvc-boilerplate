@@ -24,6 +24,8 @@
 
 	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish, -imagespng, -imageslosslessly" />
 
+    <target name="dev" depends="-clean, -prepare, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
+
 	<!-- 
 		just compiles the less files into css 
 	-->
