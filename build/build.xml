@@ -22,8 +22,15 @@
 		</classpath>
 	</taskdef>
 
+    <!-- 
+        full build process including everything required to validate the project and
+        getting the project ready for live environment.
+    -->
 	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish, -imagespng, -imageslosslessly" />
 
+    <!--
+        removes some of the slower targets in order to test the build process.
+    -->
     <target name="dev" depends="-clean, -prepare, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
 
 	<!-- 
@@ -194,13 +201,13 @@
     -->
     <target name="-js.min">
         <apply executable="java" parallel="false">
-            <fileset dir="${intermediate.dir}/${js.dir}" includes="scripts-concat.js"/>
+            <fileset dir="${intermediate.dir}/${js.dir}" includes="scripts.js"/>
             <arg line="-jar"/>
             <arg path="${tool.yuicompressor}"/>
             <srcfile/>
             <arg line="--type js"/>
             <arg line="-o"/>
-            <mapper type="merge" to="${intermediate.dir}/${js.dir}/scripts-concat.min.js"/>
+            <mapper type="merge" to="${intermediate.dir}/${js.dir}/scripts.min.js"/>
             <targetfile/>
         </apply>
     </target>
@@ -224,7 +231,7 @@
 
         <for param="js.file" parallel="true" list="${scripts.ordered}">
             <sequential>
-                <concat destfile="${intermediate.dir}/${js.dir}/scripts-concat.js" append="yes">
+                <concat destfile="${intermediate.dir}/${js.dir}/scripts.js" append="yes">
                     <filelist dir="${intermediate.dir}" files="@{js.file}"/>
                 </concat>
             </sequential>
@@ -238,10 +245,10 @@
         replaced with the name of the new cache busting java script file.
     -->
     <target name="-js.cache">
-        <checksum file="${intermediate.dir}/${js.dir}/scripts-concat.min.js" algorithm="sha" property="scripts.fullsha" />
+        <checksum file="${intermediate.dir}/${js.dir}/scripts.min.js" algorithm="sha" property="scripts.fullsha" />
         <propertyregex property="scripts.sha" input="${scripts.fullsha}" regexp=".{${hash.length}}" select="\0" />
         <property name="scripts.js" value="${intermediate.dir}/${js.dir}/${scripts.sha}.js" />
-        <copy file="${intermediate.dir}/${js.dir}/scripts-concat.min.js" tofile="${intermediate.dir}/${js.dir}/${scripts.sha}.js" />
+        <copy file="${intermediate.dir}/${js.dir}/scripts.min.js" tofile="${intermediate.dir}/${js.dir}/${scripts.sha}.js" />
 
         <var name="matchRegex" value="&lt;!-- scripts concatenated [\d\w\s\W]*[\d\w\s\W]*&lt;!-- end ((scripts)|(concatenated and minified scripts))\s*--&gt;" />
         <var name="replaceRegex" value="&lt;script async src='/${js.dir}/${scripts.sha}.js\'&gt;&lt;/script&gt;" />
