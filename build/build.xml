@@ -33,6 +33,11 @@
     -->
     <target name="dev" depends="-clean, -prepare, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
 
+    <!--
+        optimises all the images in the images directory.
+    -->
+    <target name="images" depends="-copyimages, -imagespng, -imageslosslessly" />
+
 	<!-- 
 		just compiles the less files into css 
 	-->
@@ -268,18 +273,32 @@
     </target>
 
     <!-- 
+        copies all the images into a seperate directory so they
+        can be manipulated.
+    -->
+    <target name="-copyimages">
+        <delete dir="${project.dir}/${optimised.images.dir}" />
+        
+        <copy todir="${project.dir}/${optimised.images.dir}">
+            <fileset dir="${project.dir}/${images.dir}">
+                <exclude name="**/*.md" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- 
         Optimises all the PNG images to reduce their file size, this
         may take a while depending on how many images there are.
     -->
     <target name="-imagespng">
         <delete>
-            <fileset dir="${publish.dir}/${images.dir}/">
-                <include name="**/*.png"/>
+            <fileset dir="${project.dir}/${optimised.images.dir}/">
+                <include name="**/*.png" />
             </fileset>
         </delete>
 
-        <apply executable="${tool.optipng}" dest="${publish.dir}/${images.dir}/" osfamily="windows">
-            <fileset dir="${intermediate.dir}/${images.dir}/" includes="**/*.png"  excludes="${images.bypass}, ${images.default.bypass}"/>
+        <apply executable="${tool.optipng}" dest="${project.dir}/${optimised.images.dir}/" osfamily="windows">
+            <fileset dir="${project.dir}/${images.dir}/" includes="**/*.png"  excludes="${images.bypass}, ${images.default.bypass}"/>
             <arg value="-quiet"/>
             <arg value="-o7"/>
             <arg value="-out"/>
@@ -297,7 +316,7 @@
                fork="true"
                failonerror="false"
                maxmemory="128m">
-            <arg value="-imageDir=${publish.dir}/${images.dir}"/>
+            <arg value="-imageDir=${project.dir}/${optimised.images.dir}"/>
             <arg value="-verbose=true" />
             <arg value="-imgExtensions=png,jpeg,jpg" />
        </java>
