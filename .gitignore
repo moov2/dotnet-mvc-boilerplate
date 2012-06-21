@@ -2,6 +2,7 @@ bin/
 obj/
 deploy/
 Backup/
+optimised-images/
 
 *.less.css
 
