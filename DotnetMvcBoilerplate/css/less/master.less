@@ -12,6 +12,17 @@ body {
 	width: 100%;
 }
 
+h1 {
+	font-size: 6.5em;
+	font-weight: 500;
+}
+
+h2 {
+	color: #424344;
+	font-size: 2.5em;
+	margin: 10px 0;
+}
+
 header {
 	background: @dark;
 	height: 215px;
@@ -19,14 +30,23 @@ header {
 	padding-left: 30px;
 	position: relative;
 
-	h1 {
+	.title {
 		display: table-cell;
 		color: #fff;
-		font-size: 6.5em;
-		font-weight: 550;
 		height: 215px;
-		margin: 0;
 		vertical-align: middle;
+
+		@media all and (max-width: 1200px) {
+			font-size: 5em;
+		}
+
+		@media all and (max-width: 800px) {
+			font-size: 4em;
+		}
+
+		@media all and (max-width: 500px) {
+			font-size: 2em;
+		}
 	}
 
 	.version-bg {
@@ -50,33 +70,54 @@ header {
 	}
 }
 
-@media all and (max-width: 1200px) {
-	header h1 {
-		font-size: 5em;
-	}
-}
-
-@media all and (max-width: 800px) {
-	header h1 {
-		font-size: 4em;
-	}
-}
-
-@media all and (max-width: 500px) {
-	header h1 {
-		font-size: 2em;
-	}
-}
-
 html {
 	height: 100%;
 	min-height: 100%;
 }
 
-#single-form-page {
+.main {
+	margin: 0 auto;
+	max-width: 960px;
+	padding-left: 30px;
+}
+
+nav {
+	background: @blue;
+	border-bottom: 1px solid #b1b1b1;
+	font-size: 0.85em;
+	line-height: 35px;
+	padding-left: 30px;
+	position: relative;
+
+	a {
+		color: #fff;
+		margin-right: 10px;
+
+		&:visited, &:link, &:hover {
+			color: #fff;
+		}
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.right-aligned-option {
+		display: inline;
+		padding-right: 30px;
+		position: absolute;
+		right: 0;
+
+		@media all and (max-width: 520px) {
+			display: inline-block;
+			position: inherit;
+		}
+	}
+}
+
+.single-form-page {
 	padding: 30px 0 0 0;
 	position: relative;
-	width: 100%;
 
 	form {
 		background: #fafafa;
@@ -122,7 +163,7 @@ html {
             margin-bottom: 4px;
         }
 
-        h1 {
+        .title {
         	color: @blue;
         }
 
@@ -160,53 +201,5 @@ html {
                 .drop-shadow(0, 2px, 4px, 0.2);
             }
         }
-	}
-}
-
-#main {
-	margin: 0 auto;
-	max-width: 960px;
-	padding-left: 30px;
-
-	h2 {
-		color: #424344;
-		font-size: 2.5em;
-		margin: 10px 0;
-	}
-}
-
-nav {
-	background: @blue;
-	border-bottom: 1px solid #b1b1b1;
-	font-size: 0.85em;
-	line-height: 35px;
-	padding-left: 30px;
-	position: relative;
-
-	a {
-		color: #fff;
-		margin-right: 10px;
-
-		&:visited, &:link, &:hover {
-			color: #fff;
-		}
-
-		&:hover {
-			text-decoration: none;
-		}
-	}
-
-	.right-aligned-option {
-		display: inline;
-		padding-right: 30px;
-		position: absolute;
-		right: 0;
-	}
-}
-
-@media all and (max-width: 520px) {
-	nav .right-aligned-option {
-		display: inline-block;
-		position: inherit;
 	}
 }

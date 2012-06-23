@@ -7,10 +7,10 @@
 
 @{ Html.EnableClientValidation(); }
 
-<div id="single-form-page">
+<div class="single-form-page">
     @using (Html.BeginForm("Index", "Install", FormMethod.Post, new { @class = "clearfix" }))
     {
-        <h1>Installation</h1>
+        <h2 class="title">Installation</h2>
         
         <p>In order to get things started, you need to create an Admin account for your website.</p>
         
