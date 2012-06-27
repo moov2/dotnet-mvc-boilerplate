@@ -47,7 +47,7 @@
         performs css linting on all the css.
     -->
     <target name="csslint" depends="-less">
-        <apply dir="${project.dir}/${css.dir}" executable="java" parallel="false" failonerror="true">
+        <apply dir="${project.dir}/${css.dir}" executable="java" failonerror="true">
             <fileset dir="${project.dir}/${css.dir}">
                 <include name="**/*.css"/>
                 <exclude name="**/*.min.css"/>
@@ -64,7 +64,7 @@
         performs js linting on all the js.
     -->
     <target name="jslint">
-        <apply dir="${project.dir}/${js.dir}" executable="java" parallel="false" failonerror="true">
+        <apply dir="${project.dir}/${js.dir}" executable="java" failonerror="true">
             <fileset dir="${project.dir}/${js.dir}/mylibs/">
                 <include name="*.js" />
             </fileset>
@@ -109,20 +109,21 @@
 	-->
   	<target name="-unit-test">
   		<nant buildfile="${nant.buildfile}">
-	        <target name="unit-test" />
- 	    </nant>
+	        	<target name="unit-test" />
+ 	    	</nant>
   	</target>
 
   	<!-- converts all the .less files into css files. -->
   	<target name="-less">
-        <for param="less.file" parallel="true" list="${included.less.stylesheets}">
-            <sequential>
-                <echo>compiling @{less.file} to @{less.file}.css</echo>
-                <exec dir="${basedir}" executable="${tool.lessc}" failifexecutionfails='true'>
-                    <arg line='"${project.dir}/${css.dir}/${less.dir}/@{less.file}" "${project.dir}/${css.dir}/@{less.file}.css"' />
-                </exec>
-            </sequential>
-        </for>
+        	<for param="less.file" parallel="true" list="${included.less.stylesheets}">
+            		<sequential>
+                		<echo>compiling @{less.file} to @{less.file}.css</echo>
+        			
+        			<exec dir="${basedir}" executable="${tool.lessc}" failifexecutionfails='true'>
+            				<arg line='"${project.dir}/${css.dir}/${less.dir}/@{less.file}" "${project.dir}/${css.dir}/@{less.file}.css"' />
+        			</exec>
+    			</sequential>
+       		 </for>
   	</target>
 
   	<!--
@@ -131,8 +132,8 @@
   	-->
   	<target name="-compile-release">
   		<nant buildfile="${nant.buildfile}">
-	        <target name="compile-release" />
- 	    </nant>
+	        	<target name="compile-release" />
+ 	   	</nant>
   	</target>
 
   	<!--
@@ -141,8 +142,8 @@
   	-->
   	<target name="-copytointermediate">
 		<copy todir="${intermediate.dir}">
-            <fileset dir="${project.dir}" />
-        </copy>
+            		<fileset dir="${project.dir}" />
+        	</copy>
   	</target>
 
     <target name="-css" depends="-lesstocss, -removeclientless, -css.concat, -css.min, -css.cache" />
@@ -177,7 +178,7 @@
         from the specified page files.
     -->
     <target name="-css.concat">
-        <for param="css.file" parallel="true" list="${included.stylesheets}">
+        <for param="css.file" list="${included.stylesheets}">
             <sequential>
                 <concat destfile="${intermediate.dir}/${css.dir}/${default.stylesheets.file}" append="yes">
                     <filelist dir="${intermediate.dir}/${css.dir}" files="@{css.file}"/>
@@ -192,7 +193,7 @@
         Minifies the concatenated css file.
     -->
     <target name="-css.min">
-        <apply executable="java" parallel="false">
+        <apply executable="java">
             <fileset dir="${intermediate.dir}/${css.dir}" includes="${default.stylesheets.file}" />
             <arg line="-jar"/>
             <arg path="${tool.yuicompressor}"/>
@@ -238,7 +239,7 @@
         Minifies the concatenateed javascript file. 
     -->
     <target name="-js.min">
-        <apply executable="java" parallel="false">
+        <apply executable="java">
             <fileset dir="${intermediate.dir}/${js.dir}" includes="scripts.js"/>
             <arg line="-jar"/>
             <arg path="${tool.yuicompressor}"/>
@@ -258,7 +259,7 @@
     <target name="-js.concat">
         <filelist id="file.root" dir="${intermediate.dir}" files="${page-files}" />
 
-        <apply executable="java" parallel="false" outputproperty="scripts.ordered">
+        <apply executable="java" outputproperty="scripts.ordered">
             <arg value="-cp"/>
             <arg value="${tools.dir}/misc/" />
             <arg value="ScriptsToConcat"/>
@@ -267,7 +268,7 @@
             </first>
         </apply>
 
-        <for param="js.file" parallel="true" list="${scripts.ordered}">
+        <for param="js.file" list="${scripts.ordered}">
             <sequential>
                 <concat destfile="${intermediate.dir}/${js.dir}/scripts.js" append="yes">
                     <filelist dir="${intermediate.dir}" files="@{js.file}"/>
