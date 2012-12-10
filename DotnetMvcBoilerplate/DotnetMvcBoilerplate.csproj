@@ -155,7 +155,6 @@
     <Content Include="js\libs\jquery.form.js" />
     <Content Include="js\libs\jquery.validate.js" />
     <Content Include="js\libs\jquery.validate.unobtrusive.js" />
-    <Content Include="js\libs\less-1.3.0.min.js" />
     <Content Include="Views\Shared\_Page.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
