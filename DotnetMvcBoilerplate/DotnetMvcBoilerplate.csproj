@@ -150,11 +150,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="css\styles.css" />
-    <Content Include="js\libs\jquery-1.7.2.js" />
-    <Content Include="js\libs\jquery-1.7.2.min.js" />
+    <Content Include="js\libs\jquery-1.8.3.min.js" />
     <Content Include="js\libs\jquery.form.js" />
     <Content Include="js\libs\jquery.validate.js" />
     <Content Include="js\libs\jquery.validate.unobtrusive.js" />
+    <Content Include="js\libs\modernizr-2.6.2.min.js" />
     <Content Include="Views\Shared\_Page.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
@@ -165,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="js\mylibs\boilerplate.js" />
-    <Content Include="js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
