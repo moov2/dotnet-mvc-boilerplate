@@ -4,9 +4,9 @@
 
     <!-- load shell environment -->
     <property environment="ENV" />
-    
+
     <property file="build/config/project.properties"/>
- 
+
 
     <!-- load in Ant-Contrib to give us access to some very useful tasks! -->
     <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -22,45 +22,23 @@
 		</classpath>
 	</taskdef>
 
-    <!-- 
+    <!--
         full build process including everything required to validate the project and
         getting the project ready for live environment.
     -->
-	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
+	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -copytointermediate, -css, -js, -publish" />
 
     <!--
         removes some of the slower targets in order to test the build process.
     -->
-    <target name="dev" depends="-clean, -prepare, -compile-release, -less, -copytointermediate, -css, -js, -publish" />
+    <target name="dev" depends="-clean, -prepare, -compile-release, -copytointermediate, -css, -js, -publish" />
 
     <!--
         optimises all the images in the images directory.
     -->
     <target name="images" depends="-copyimages, -imagespng, -imageslosslessly" />
 
-	<!-- 
-		just compiles the less files into css 
-	-->
-	<target name="less" depends="-less" />
-
-    <!-- 
-        performs css linting on all the css.
-    -->
-    <target name="csslint" depends="-less">
-        <apply dir="${project.dir}/${css.dir}" executable="java" failonerror="true">
-            <fileset dir="${project.dir}/${css.dir}">
-                <include name="**/*.css"/>
-                <exclude name="**/*.min.css"/>
-                <exclude name="${default.stylesheets.file}" />
-            </fileset>
-            <arg value="-jar" />
-            <arg path="${tool.rhino}" />
-            <arg path="${tool.csslint}" />
-            <srcfile/>
-        </apply>
-    </target>
-
-     <!-- 
+     <!--
         performs js linting on all the js.
     -->
     <target name="jslint">
@@ -76,9 +54,9 @@
         </apply>
     </target>
 
-	<!-- 
-		deletes the artifacts generated from the previous build, 
-		if there is one. 
+	<!--
+		deletes the artifacts generated from the previous build,
+		if there is one.
 	-->
 	<target name="-clean" >
       	<delete dir="${deploy.dir}" />
@@ -93,7 +71,7 @@
 		<mkdir dir="${test.reports.dir}" />
   	</target>
 
-  	<!-- 
+  	<!--
   		compiles the solution to ensure there are no errors before
   		we continue any further.
   	-->
@@ -104,26 +82,13 @@
   	</target>
 
   	<!--
-		Runs the unit tests copying the reports to the 
+		Runs the unit tests copying the reports to the
 		deploy/test-reports directory.
 	-->
   	<target name="-unit-test">
   		<nant buildfile="${nant.buildfile}">
 	        	<target name="unit-test" />
  	    	</nant>
-  	</target>
-
-  	<!-- converts all the .less files into css files. -->
-  	<target name="-less">
-        	<for param="less.file" parallel="true" list="${included.less.stylesheets}">
-            		<sequential>
-                		<echo>compiling @{less.file} to @{less.file}.css</echo>
-        			
-        			<exec dir="${basedir}" executable="${tool.lessc}" failifexecutionfails='true'>
-            				<arg line='"${project.dir}/${css.dir}/${less.dir}/@{less.file}" "${project.dir}/${css.dir}/@{less.file}.css"' />
-        			</exec>
-    			</sequential>
-       		 </for>
   	</target>
 
   	<!--
@@ -146,48 +111,7 @@
         	</copy>
   	</target>
 
-    <target name="-css" depends="-lesstocss, -removeclientless, -css.concat, -css.min, -css.cache" />
-
-    <!--
-        Modifies any .less external stylesheet imports, and converts them 
-        to be directed at the compiled .css versions of the .less files.
-    -->
-    <target name="-lesstocss">
-        <for param="less.file" parallel="true" list="${included.less.stylesheets}">
-            <sequential>
-                <replaceregexp  match="&lt;link(.+)href=['&quot;]?(.*)/less/@{less.file}(?:\?.*)?['&quot;\s]?(.*/?&gt;)"
-                                replace="&lt;link rel=&quot;stylesheet&quot; href=&quot;\2/@{less.file}.css&quot;\3" flags="m">
-                    <fileset dir="${intermediate.dir}" includes="${page-files}"/>
-                </replaceregexp>
-            </sequential>
-        </for>
-    </target>
-
-    <!--
-        Removes the client side less javascript library.
-    -->
-    <target name="-removeclientless">
-        <replaceregexp  match="&lt;script src=&quot;${js.libs.dir}/${less.js.file}&quot;.*&gt;" replace=" " flags="m">
-            <fileset dir="${intermediate.dir}" includes="${page-files}"/>
-        </replaceregexp>
-    </target>
-
-    <!-- 
-        Concats all the css files into a single css file for improved
-        page load. All the css files that have been concatenated are stripped
-        from the specified page files.
-    -->
-    <target name="-css.concat">
-        <for param="css.file" list="${included.stylesheets}">
-            <sequential>
-                <concat destfile="${intermediate.dir}/${css.dir}/${default.stylesheets.file}" append="yes">
-                    <filelist dir="${intermediate.dir}/${css.dir}" files="@{css.file}"/>
-                </concat>
-            </sequential>
-        </for>
-
-        <foreach list="${included.stylesheets}" param="css_file" target="-css-remove-concatenated-stylesheets" />
-    </target>
+    <target name="-css" depends="-css.min, -css.cache" />
 
     <!--
         Minifies the concatenated css file.
@@ -200,22 +124,22 @@
             <srcfile/>
             <arg line="--type css"/>
             <arg line="-o"/>
-            <mapper type="merge" to="${intermediate.dir}/${css.dir}/style.min.css"/>
+            <mapper type="merge" to="${intermediate.dir}/${css.dir}/styles.min.css"/>
             <targetfile/>
         </apply>
     </target>
 
     <!--
-        Changes the name of the name of the concatenated css file to ensure that any 
+        Changes the name of the name of the concatenated css file to ensure that any
         changes made to the stylesheet are presented to the user. The minified version
-        of the stylesheet is given a randomly generated new name and the <link> tag 
+        of the stylesheet is given a randomly generated new name and the <link> tag
         to the main stylesheet file is changed to point at the renamed stylesheet.
     -->
     <target name="-css.cache">
-        <checksum file="${intermediate.dir}/${css.dir}/style.min.css" algorithm="sha" property="css.fullsha" />
+        <checksum file="${intermediate.dir}/${css.dir}/styles.min.css" algorithm="sha" property="css.fullsha" />
         <propertyregex property="css.sha" input="${css.fullsha}" regexp=".{${hash.length}}" select="\0" />
         <property name="style.css" value="${css.dir}/${css.sha}.css" />
-        <copy file="${intermediate.dir}/${css.dir}/style.min.css" tofile="${intermediate.dir}/${css.dir}/${css.sha}.css" />
+        <copy file="${intermediate.dir}/${css.dir}/styles.min.css" tofile="${intermediate.dir}/${css.dir}/${css.sha}.css" />
 
         <replaceregexp  match="&lt;link(.+)href=['&quot;]?(.*)/${default.stylesheets.file}(?:\?.*)?['&quot;\s]?(.*/?&gt;)"
                         replace="&lt;link\1href='\2/${css.sha}.css'\3" flags="m">
@@ -223,7 +147,7 @@
         </replaceregexp>
     </target>
 
-    <!-- 
+    <!--
         Removes the stylesheets that have been included
         into the concatenated stylesheets.
     -->
@@ -235,8 +159,8 @@
 
     <target name="-js" depends="-js.concat, -js.min, -js.cache" />
 
-    <!-- 
-        Minifies the concatenateed javascript file. 
+    <!--
+        Minifies the concatenateed javascript file.
     -->
     <target name="-js.min">
         <apply executable="java">
@@ -278,7 +202,7 @@
     </target>
 
     <!--
-        Changes the name of the main concatenated scripts file to ensure that any 
+        Changes the name of the main concatenated scripts file to ensure that any
         the primary javascript file is never loaded from cached when a release is pushed.
         The collection of javascript files in between the marker comments are removed and
         replaced with the name of the new cache busting java script file.
@@ -297,7 +221,7 @@
         </replaceregexp>
     </target>
 
-    <!-- 
+    <!--
         publishes the intermediate project into a working website.
     -->
     <target name="-publish">
@@ -306,7 +230,7 @@
         </nant>
     </target>
 
-    <!-- 
+    <!--
         copies all the images into a seperate directory so they
         can be manipulated.
     -->
@@ -320,7 +244,7 @@
         </copy>
     </target>
 
-    <!-- 
+    <!--
         Optimises all the PNG images to reduce their file size, this
         may take a while depending on how many images there are.
     -->
@@ -343,7 +267,7 @@
     </target>
 
     <!--
-        Optimises all the images with losslessly compression. 
+        Optimises all the images with losslessly compression.
     -->
     <target name="-imageslosslessly">
         <java  jar="${tool.smushit}"
