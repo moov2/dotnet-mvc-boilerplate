@@ -13,7 +13,7 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Utils
         public static IList<User> Users()
         {
             var users = new List<User>();
-            users.Add(new User { Username = "Dan Thomas", Roles = new List<string> { Role.Admin } });
+            users.Add(new User { Username = "Dan Thomas" });
             users.Add(new User { Username = "Peter Keating" });
             users.Add(new User { Username = "Lawrence Dine" });
             return users;

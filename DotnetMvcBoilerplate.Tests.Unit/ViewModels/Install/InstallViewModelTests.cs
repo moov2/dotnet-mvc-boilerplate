@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using NUnit.Framework;
 using DotnetMvcBoilerplate.ViewModels.Install;
 using DataAnnotationsExtensions;
@@ -32,18 +31,6 @@ namespace DotnetMvcBoilerplate.Tests.Unit.ViewModels.Install
             SetupPasswordEncryption(userEnteredPassword);
 
             Assert.That(ToUserWithUsernameAndPassword(expectedUsername, userEnteredPassword).Username, Is.EqualTo(expectedUsername));
-        }
-
-        /// <summary>
-        /// Tests that the User returned from ToUser is an admin.
-        /// </summary>
-        [Test]
-        public void ToUser_ReturnsUserAsAnAdmin()
-        {
-            const string userEnteredPassword = "Password";
-            SetupPasswordEncryption(userEnteredPassword);
-
-            Assert.That(ToUserWithUsernameAndPassword("Username", userEnteredPassword).IsAdmin, Is.True);
         }
 
         /// <summary>

@@ -58,21 +58,6 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
         }
 
         /// <summary>
-        /// Tests that SetRoles should transfer the UserData on the current FormsIdentity
-        /// ticket 
-        /// </summary>
-        [Test]
-        public void SetRoles_ShouldTransferRolesOnUserDataToGenericPrincipal()
-        {
-            var identity = new FormsIdentity(new FormsAuthenticationTicket(1, ObjectId.GenerateNewId().ToString(), DateTime.Now, DateTime.Now.AddMinutes(20), false, Role.Admin));
-            SetupMockParameters(identity);
-
-            _autoMoqer.Resolve<SessionAuthentication>().SetRoles();
-
-            _autoMoqer.GetMock<HttpContextBase>().VerifySet(x => x.User = It.Is<GenericPrincipal>(c => c.Identity == identity && c.IsInRole(Role.Admin)), Times.Once());
-        }
-
-        /// <summary>
         /// Tests that the Username of the User is set on the
         /// Session when calling SetSessionData.
         /// </summary>
@@ -130,22 +115,6 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Core.Security
             _autoMoqer.Resolve<SessionAuthentication>().Start(user, false);
 
             Assert.That(GetDecryptedTicket().Name, Is.EqualTo(expectedName));
-        }
-
-        /// <summary>
-        /// Tests that Start adds a cookie with an encrypted ticket that
-        /// stores that authenticated roles of the user.
-        /// </summary>
-        [Test]
-        public void Start_AddsEncryptedTicketThatSpecifiesUserRolesToCookie()
-        {
-            var user = Fakes.Users()[0];
-            var expectedUserData = string.Join(",", user.Roles.ToArray());
-            SetupMockParameters();
-
-            _autoMoqer.Resolve<SessionAuthentication>().Start(user, false);
-
-            Assert.That(GetDecryptedTicket().UserData, Is.EqualTo(expectedUserData));
         }
 
         /// <summary>

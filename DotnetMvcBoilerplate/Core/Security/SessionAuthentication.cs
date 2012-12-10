@@ -102,10 +102,9 @@ namespace DotnetMvcBoilerplate.Core.Security
         /// remembered next time they visit.</param>
         public void Start(User user, bool remember)
         {
-            var roles = string.Join(",", user.Roles.ToArray());
             var expireDate = GetExpiryDate(remember);
 
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, CreateEncryptedTicket(user.Id.ToString(), roles, expireDate, remember));
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, CreateEncryptedTicket(user.Id.ToString(), String.Empty, expireDate, remember));
 
             if (remember)
                 cookie.Expires = expireDate;

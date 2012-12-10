@@ -3,7 +3,6 @@ using System.Linq;
 using NUnit.Framework;
 using DotnetMvcBoilerplate.Controllers;
 using System.Web.Mvc;
-using DotnetMvcBoilerplate.Core.Security.Attributes;
 
 namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
 {
@@ -15,20 +14,19 @@ namespace DotnetMvcBoilerplate.Tests.Unit.Controllers
         [Test]
         public void Index_ReturnsView()
         {
-            Assert.That(new AdminController().Index(), Is.InstanceOf<ViewResult>());
+            Assert.That(new AuthorisedController().Index(), Is.InstanceOf<ViewResult>());
         }
 
         /// <summary>
-        /// Tests that only Admin users can see the Index
-        /// page.
+        /// Tests that only authorised users can see the Index page.
         /// </summary>
         [Test]
-        public void Index_OnlyAllowsAdminUsers()
+        public void Index_OnlyAllowsAuthorisedUsers()
         {
-            var propertyInfo = typeof(AdminController).GetMethod("Index");
+            var propertyInfo = typeof(AuthorisedController).GetMethod("Index");
 
-            var attribute = propertyInfo.GetCustomAttributes(typeof(AdminOnlyAttribute), false)
-                                          .Cast<AdminOnlyAttribute>()
+            var attribute = propertyInfo.GetCustomAttributes(typeof(AuthorizeAttribute), false)
+                                          .Cast<AuthorizeAttribute>()
                                           .FirstOrDefault();
 
             Assert.That(attribute, !Is.Null);

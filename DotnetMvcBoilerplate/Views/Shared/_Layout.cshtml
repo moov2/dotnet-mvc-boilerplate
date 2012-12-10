@@ -16,8 +16,9 @@
         <a href="/#about">About</a>
         <a href="/#contact">Contact</a>
 
-        @if (User.IsInRole(Role.Admin)) {
-            <a href="/Admin">Admin Area</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a href="/Authorised">Authorised Area</a>
         }
         
         @if (User.Identity.IsAuthenticated) {
