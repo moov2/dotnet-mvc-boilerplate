@@ -43,8 +43,9 @@
     -->
     <target name="jslint">
         <apply dir="${project.dir}/${js.dir}" executable="java" failonerror="true">
-            <fileset dir="${project.dir}/${js.dir}/mylibs/">
+            <fileset dir="${project.dir}/${js.dir}/">
                 <include name="*.js" />
+                <exclude name="/libs/*" />
             </fileset>
             <arg value="-jar" />
             <arg path="${tool.rhino}" />

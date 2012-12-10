@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="css\styles.css" />
+    <Content Include="js\boilerplate.js" />
     <Content Include="js\libs\jquery-1.8.3.min.js" />
     <Content Include="js\libs\jquery.form.js" />
     <Content Include="js\libs\jquery.validate.js" />
@@ -164,7 +165,6 @@
     <Content Include="images\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="js\mylibs\boilerplate.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
