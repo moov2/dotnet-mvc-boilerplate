@@ -145,16 +145,10 @@
                         replace="&lt;link\1href='\2/${css.sha}.css'\3" flags="m">
             <fileset dir="${intermediate.dir}" includes="${page-files}"/>
         </replaceregexp>
-    </target>
 
-    <!--
-        Removes the stylesheets that have been included
-        into the concatenated stylesheets.
-    -->
-    <target name="-css-remove-concatenated-stylesheets">
-        <replaceregexp match="&lt;link.+href=&quot;.*${css_file}&quot;.*&gt;" replace=" " byline="true">
-            <fileset dir="${intermediate.dir}" includes="${page-files}"/>
-        </replaceregexp>
+        <delete includeemptydirs="true">
+            <fileset dir="${intermediate.dir}/css" excludes="${css.sha}.css" />
+        </delete>
     </target>
 
     <target name="-js" depends="-js.concat, -js.min, -js.cache" />
