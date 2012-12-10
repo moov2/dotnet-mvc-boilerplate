@@ -3,6 +3,7 @@ obj/
 deploy/
 Backup/
 optimised-images/
+.sass-cache/
 
 *.less.css
 
