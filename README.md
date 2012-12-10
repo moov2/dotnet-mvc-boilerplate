@@ -11,7 +11,7 @@ Either download the [zipped source] (https://github.com/moov2/dotnet-mvc-boilerp
 	git clone git://github.com/moov2/dotnet-mvc-boilerplate.git myproject
 	rm -rf myproject/.git
 	myproject/setup MyProject
-	
+
 
 Open the Visual Studio .sln file, hit F5 et voila! Take the rest of the day off :)
 
@@ -38,7 +38,7 @@ For an example of the website that the boilerplate offers visit [http://boilerpl
 * Website implemented using HTML5 semantic mark up.
 * CSS normalizations with normalize.css
 * CSS written using the Less dynamic stylesheet language providing a wealth of features for improved CSS development.
-* Automated build script that: 
+* Automated build script that:
 	* converts .less files to .css, concats & minifies for a more performant stylesheet.
 	* concats custom & third party js files into a single js file for a decreased number of requests per page.
 	* compiles the solution, failing the build process if there are errors.
@@ -50,16 +50,14 @@ For an example of the website that the boilerplate offers visit [http://boilerpl
 Below is a list of all the third party frameworks & tools used in the boilerplate.
 
 * ASP.NET MVC 3
-* jQuery - 1.7.2
-* Modernizr - 2.5.3
+* jQuery - 1.8.3
+* Modernizr - 2.6.2
 * NAntContrib - 0.91 RC 1
-* lesscss - 1.3.0
-* less.js-windows - Apr 9th
 * NUnit - 2.6.0.12054
 * MVCTurbine with Unity - 3.4
 * Simple.Data.Core - 0.14.0.3
 * Mongo C# Driver - 1.4.2.4500
-* Simple.Data.MongoDB - 0.12.0.1 (Using my personal fork on github https://github.com/peterkeating/Simple.Data.MongoDB)
+* Simple.Data.MongoDB - 0.12.0.1
 * DataAnnotationsExtensions.MVC3 - 1.1.0.0
 * AutoMoq - 1.6.1
 * Moq - 4.0.20926
