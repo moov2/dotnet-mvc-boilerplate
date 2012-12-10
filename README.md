@@ -39,19 +39,19 @@ For an example of the website that the boilerplate offers visit [http://boilerpl
 
 * Utilises Simple.Data to enable support for a wide range of database engines.
 * Integration with Simple.Data.Mongo for easy connectivity with a Mongo DB datastore.
-* User authentication process complete with roles that also includes the ability to create the primary admin user.
-* Demonstrates how to secure public methods in Controllers to give access only to authenticated users or restrict to just admins.
-* Unit test suite that is also integrated with the build script.
+* User authentication process that also includes the ability to create the primary user.
+* Demonstrates how to secure public methods in Controllers to give access only to authenticated users.
+* Unit test suite that is integrated with the build script.
 * Provides a simple, customisable & responsive layout that works x-browser & x-device.
 * Website implemented using HTML5 semantic mark up.
-* CSS normalizations with normalize.css
-* CSS written using the Less dynamic stylesheet language providing a wealth of features for improved CSS development.
+* CSS resets with normalize.css
+* CSS written using the Sass dynamic stylesheet language providing a wealth of features for improved CSS development.
 * Automated build script that:
-	* converts .less files to .css, concats & minifies for a more performant stylesheet.
-	* concats custom & third party js files into a single js file for a decreased number of requests per page.
+	* minifies and cache busts the CSS.
+	* concatenates custom & third party JavaScript files into a single file in order to decrease the number of requests per page.
 	* compiles the solution, failing the build process if there are errors.
 	* runs the unit test suite with NUnit outputting results to an .xml file.
-	* builds a release version of the website.
+	* builds a production ready version of the website.
 
 ## Third Party Libraries
 
