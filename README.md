@@ -19,6 +19,14 @@ This will clone the boilerplate code into a directory called "myproject" and the
 
 ## Updates
 
+### 0.3
+
+Fixed bug with running multiple sites on the same machine causing clash with cookie name.
+Fixed bug with build script failing when running Java 1.6.
+Removed Roles to simplify switching the method of data storage and have a better starting point that isn't too specific.
+Switched from Less to Sass to reduce friction and preference.
+Updated third party libraries.
+
 ### 0.2
 
 Re-implemented the build process to allow for frictionless development by removing the dependancy on having NAnt.

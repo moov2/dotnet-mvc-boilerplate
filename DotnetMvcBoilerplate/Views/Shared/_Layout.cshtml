@@ -8,7 +8,7 @@
         <h1 class="site-title">.NET MVC Boilerplate</h1>
 
         <div class="version-background">&nbsp;</div>
-        <div class="version-text">0.2</div>
+        <div class="version-text">0.3</div>
     </header>
 
     <nav class="nav">
@@ -20,7 +20,7 @@
         {
             <a href="/Authorised" class="nav-option">Authorised Area</a>
         }
-        
+
         @if (User.Identity.IsAuthenticated) {
             <div class="nav-option--right">
                 <strong>Logged in as </strong><a href="/Profile">@Session["LoggedInAs"]</a> <a href="/Logout">Logout</a>
