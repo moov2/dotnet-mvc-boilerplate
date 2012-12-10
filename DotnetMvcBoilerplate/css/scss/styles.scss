@@ -6,6 +6,13 @@
 *   CONTENTS..........
 *   RESET.............Renders all elements consistently across all browsers.
 *   VARS..............Defines variables to be used to configure appearance.
+*	IMPORTS...........Imports all the partials that contain the styles for the site.
+*	CLEARFIX..........Useful classes to fix float left bug.
+*	STRUCTURAL........The main containers that holds the page content.
+*	TEXT..............Text related styles, e.g. h1,h2...
+*	HEADER............Header of the web page.
+*	NAVIGATION........Site navigation.
+*	FORM..............Generic form styles.
 */
 
 /*
@@ -13,7 +20,6 @@
 *    $RESET
 *   ============================================================================
 */
-
 
 @import "partials/generic/normalize";
 
@@ -25,200 +31,16 @@
 
 @import "vars";
 
+/**
+*   ============================================================================
+*    $IMPORTS
+*   ============================================================================
+*/
 
+@import "partials/generic/clearfix";
 
-body {
-    background: #f2f2f2;
-    color: $dark-color;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 100%;
-    height: 100%;
-    width: 100%;
-}
-
-h1 {
-    font-size: 6.5em;
-    font-weight: 500;
-}
-
-h2 {
-    color: #424344;
-    font-size: 2.5em;
-    margin: 10px 0;
-}
-
-header {
-    background: $dark-color;
-    height: 215px;
-    overflow: hidden;
-    padding-left: 30px;
-    position: relative;
-
-    .title {
-        display: table-cell;
-        color: #fff;
-        height: 215px;
-        vertical-align: middle;
-
-        @media all and (max-width: 1200px) {
-            font-size: 5em;
-        }
-
-        @media all and (max-width: 800px) {
-            font-size: 4em;
-        }
-
-        @media all and (max-width: 500px) {
-            font-size: 2em;
-        }
-    }
-
-    .version-bg {
-        background: $blue-color;
-        border-radius: 100px;
-        height: 200px;
-        position: absolute;
-        right: -100px;
-        top: -100px;
-        width: 200px;
-    }
-
-    .version {
-        color: #fff;
-        font-size: 2em;
-        font-style: italic;
-        font-weight: bold;
-        position: absolute;
-        right: 15px;
-        top: 15px;
-    }
-}
-
-html {
-    height: 100%;
-    min-height: 100%;
-}
-
-.main {
-    margin: 0 auto;
-    max-width: 960px;
-    padding-left: 30px;
-}
-
-nav {
-    background: $blue-color;
-    border-bottom: 1px solid #b1b1b1;
-    font-size: 0.85em;
-    line-height: 35px;
-    padding-left: 30px;
-    position: relative;
-
-    a {
-        color: #fff;
-        margin-right: 10px;
-
-        &:visited, &:link, &:hover {
-            color: #fff;
-        }
-
-        &:hover {
-            text-decoration: none;
-        }
-    }
-
-    .right-aligned-option {
-        display: inline;
-        padding-right: 30px;
-        position: absolute;
-        right: 0;
-
-        @media all and (max-width: 520px) {
-            display: inline-block;
-            position: inherit;
-        }
-    }
-}
-
-.single-form-page {
-    padding: 30px 0 0 0;
-    position: relative;
-
-    form {
-        background: #fafafa;
-        border: 1px solid #e1e1e1;
-        border-radius: 8px;
-        font-size: 0.9em;
-        margin: 0 auto;
-        max-width: 300px;
-        min-height: 144px;
-        padding: 20px;
-
-        .checkbox {
-            float: left;
-            height: 26px;
-
-            label, input[type="checkbox"] {
-                float: left;
-            }
-
-            input[type="checkbox"] {
-                margin-top: 7px;
-            }
-
-            label {
-                line-height: 26px;
-                margin-left: 5px;
-            }
-        }
-
-        .field-validation-error, .fail-feedback {
-            background: #be2121;
-            border-radius: 3px;
-            color: #fafafa;
-            display: block;
-            font-size: 0.9em;
-            margin: 2px 0 5px 0;
-            padding: 7px;
-        }
-
-        .generic-feedback {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        .title {
-            color: $blue-color;
-        }
-
-        input, label {
-            display: block;
-        }
-
-        input[type="text"], input[type="password"] {
-            border: 1px solid #e1e1e1;
-            border-radius: 3px;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-            padding: 5px;
-            width: 286px;
-
-            &:focus {
-                border: 1px solid $blue-color;
-                outline: none;
-            }
-        }
-
-        input[type="submit"] {
-            background: $blue-color;
-            border: 0;
-            border-radius: 2px;
-            color: #fff;
-            float: right;
-            font-weight: bold;
-            margin: 0;
-            margin-top: 3px;
-            min-width: 60px;
-            padding: 5px;
-        }
-    }
-}
+@import "partials/ui/structure";
+@import "partials/ui/text";
+@import "partials/ui/header";
+@import "partials/ui/nav";
+@import "partials/ui/form";

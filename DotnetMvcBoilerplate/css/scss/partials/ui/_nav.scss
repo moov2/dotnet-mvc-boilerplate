@@ -1,0 +1,41 @@
+/**
+*   ============================================================================
+*    $NAVIGATION
+*   ============================================================================
+*/
+
+.nav {
+    background: $primary-color;
+    border-bottom: 1px solid #b1b1b1;
+    font-size: 0.85em;
+    line-height: 35px;
+    padding-left: 30px;
+    position: relative;
+}
+
+.nav-option {
+    color: #fff;
+    margin-right: 10px;
+
+    &:visited, &:link, &:hover {
+        color: #fff;
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.nav-option--right {
+    @extend .nav-option;
+
+    display: inline;
+    padding-right: 30px;
+    position: absolute;
+    right: 0;
+
+    @media all and (max-width: 520px) {
+        display: inline-block;
+        position: inherit;
+    }
+}

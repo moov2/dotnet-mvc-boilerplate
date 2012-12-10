@@ -1,0 +1,53 @@
+/**
+*   ============================================================================
+*    $HEADER
+*   ============================================================================
+*/
+
+.site-header {
+    background: $dark-color;
+    height: 215px;
+    overflow: hidden;
+    padding-left: 30px;
+    position: relative;
+}
+
+.site-title {
+    display: table-cell;
+    color: #fff;
+    height: 215px;
+    vertical-align: middle;
+
+    @media all and (max-width: 1200px) {
+        font-size: 5em;
+    }
+
+    @media all and (max-width: 800px) {
+        font-size: 4em;
+    }
+
+    @media all and (max-width: 500px) {
+        font-size: 2em;
+    }
+}
+
+.version-background {
+    background: $primary-color;
+    border-radius: 100px;
+    height: 200px;
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 200px;
+}
+
+.version-text {
+    color: #fff;
+    font-size: 2em;
+    font-style: italic;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+

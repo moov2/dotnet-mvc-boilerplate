@@ -4,31 +4,31 @@
     Layout = "~/Views/Shared/_Page.cshtml";
 }
 
-    <header>
-        <h1 class="title">.NET MVC Boilerplate</h1>
+    <header class="site-header">
+        <h1 class="site-title">.NET MVC Boilerplate</h1>
 
-        <div class="version-bg">&nbsp;</div>
-        <div class="version">0.2</div>
+        <div class="version-background">&nbsp;</div>
+        <div class="version-text">0.2</div>
     </header>
 
-    <nav>
-        <a href="/#">Home</a>
-        <a href="/#about">About</a>
-        <a href="/#contact">Contact</a>
+    <nav class="nav">
+        <a href="/#" class="nav-option">Home</a>
+        <a href="/#about" class="nav-option">About</a>
+        <a href="/#contact" class="nav-option">Contact</a>
 
         @if (User.Identity.IsAuthenticated)
         {
-            <a href="/Authorised">Authorised Area</a>
+            <a href="/Authorised" class="nav-option">Authorised Area</a>
         }
         
         @if (User.Identity.IsAuthenticated) {
-            <div class="right-aligned-option">
+            <div class="nav-option--right">
                 <strong>Logged in as </strong><a href="/Profile">@Session["LoggedInAs"]</a> <a href="/Logout">Logout</a>
             </div>
         }
         else
         {
-            <a href="/Login" class="right-aligned-option">Login</a>
+            <a href="/Login" class="nav-option--right">Login</a>
         }
     </nav>
 

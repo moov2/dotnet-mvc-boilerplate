@@ -6,7 +6,7 @@
 }
 
 <div class="single-form-page">
-    <form method="post" class="clearfix">
+    <form method="post">
 
         @if (TempData["LogoutFeedback"] != null)
         {
@@ -28,7 +28,7 @@
         @Html.LabelFor(model => model.Password, "Password")
         @Html.PasswordFor(model => model.Password)
         
-        <div class="checkbox clearfix">
+        <div class="checkbox">
             @Html.CheckBoxFor(model => model.RememberMe)
             @Html.LabelFor(model => model.RememberMe, "Remember Me")
         </div>
