@@ -26,12 +26,12 @@
         full build process including everything required to validate the project and
         getting the project ready for live environment.
     -->
-	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -copytointermediate, -css, -js, -publish" />
+	<target name="build" depends="-clean, -prepare, -compile, -unit-test, -compile-release, -copytointermediate, -css, -js, -publish, -tidy" />
 
     <!--
         removes some of the slower targets in order to test the build process.
     -->
-    <target name="dev" depends="-clean, -prepare, -compile-release, -copytointermediate, -css, -js, -publish" />
+    <target name="dev" depends="-clean, -prepare, -compile-release, -copytointermediate, -css, -js, -publish, -tidy" />
 
     <!--
         optimises all the images in the images directory.
@@ -222,6 +222,13 @@
         <nant buildfile="${nant.buildfile}">
             <target name="publish" />
         </nant>
+    </target>
+
+    <!--
+        Removes directories and files that are no longer used.
+    -->
+    <target name="-tidy">
+        <delete dir="${intermediate.dir}" />
     </target>
 
     <!--
