@@ -143,14 +143,13 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\Install\InstallViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
-    <None Include="css\less\master.less" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="css\style.css" />
+    <Content Include="css\styles.css" />
     <Content Include="js\libs\jquery-1.7.2.js" />
     <Content Include="js\libs\jquery-1.7.2.min.js" />
     <Content Include="js\libs\jquery.form.js" />
@@ -166,7 +165,6 @@
     <Content Include="images\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\normalize.css" />
     <Content Include="js\mylibs\boilerplate.js" />
     <Content Include="js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Global.asax" />
@@ -180,7 +178,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="css\scss\partials\generic\_normalize.scss" />
+    <Content Include="css\scss\styles.scss" />
+    <Content Include="css\scss\_vars.scss" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
